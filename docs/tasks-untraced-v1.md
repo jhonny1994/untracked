@@ -51,8 +51,8 @@ lib/
 ## Tasks
 
 ### 0.0 Version Control Setup
-- [ ] 0.1 `git init`
-- [ ] 0.2 Initial commit
+- [x] 0.1 `git init`
+- [x] 0.2 Initial commit
 - [ ] 0.3 Create GitHub repository
 - [ ] 0.4 `git remote add origin <url> && git push -u origin main`
 
