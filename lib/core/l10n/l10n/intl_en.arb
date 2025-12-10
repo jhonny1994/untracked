@@ -1,0 +1,38 @@
+{
+  "@@locale": "en",
+  "appName": "UNTRACED",
+  "appTagline": "Remove TikTok Tracking",
+  "inputScreenTitle": "Clean TikTok Link",
+  "inputScreenHint": "Paste TikTok link here",
+  "inputScreenPasteButton": "Paste",
+  "inputScreenProcessButton": "Remove Tracking",
+  "inputScreenPrivacyNote": "Your link stays private. We remove tracking.",
+  "processingScreenTitle": "Removing tracking...",
+  "successScreenTitle": "Link Cleaned & Copied!",
+  "successScreenOriginalLabel": "Original",
+  "successScreenCleanLabel": "Clean",
+  "successScreenTrackingRemoved": "{count} tracking parameters removed",
+  "@successScreenTrackingRemoved": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "successScreenShareButton": "Share Clean Link",
+  "successScreenTryAnother": "Try Another",
+  "errorNotTikTok": "Not a TikTok URL",
+  "errorNetworkTimeout": "Network timeout. Try again or check connection.",
+  "errorExtractionFailed": "Couldn't extract video ID. Try another link.",
+  "errorClipboardFailed": "Couldn't copy to clipboard. Try again.",
+  "errorRateLimited": "Too many requests. Please wait and try again.",
+  "errorCloudflareBlocked": "TikTok is blocking requests. Please try again later.",
+  "errorGeneric": "Something went wrong. Please try again.",
+  "tryAgainButton": "Try Again",
+  "settingsTitle": "Settings",
+  "settingsTheme": "Theme",
+  "settingsThemeLight": "Light",
+  "settingsThemeDark": "Dark",
+  "settingsThemeSystem": "System",
+  "settingsLanguage": "Language"
+}

@@ -53,82 +53,62 @@ lib/
 ### 0.0 Version Control Setup
 - [x] 0.1 `git init`
 - [x] 0.2 Initial commit
-- [ ] 0.3 Create GitHub repository
-- [ ] 0.4 `git remote add origin <url> && git push -u origin main`
+- [x] 0.3 Create GitHub repository
+- [x] 0.4 `git remote add origin <url> && git push -u origin main`
 
-### 1.0 Very Good CLI Setup
-- [ ] 1.1 Install Very Good CLI:
-  ```bash
-  dart pub global activate very_good_cli
-  ```
-- [ ] 1.2 Create Flutter app (in existing project or new):
-  ```bash
-  very_good create flutter_app . --org com.untraced
-  ```
-  > Note: Use `.` to create in current directory
+### 1.0 Very Good Setup
+- [x] 1.1 Install Very Good CLI: `dart pub global activate very_good_cli`
+- [x] 1.2 ~~Create Flutter app~~ (skipped - using existing project)
+- [x] 1.3 Add very_good_analysis: `flutter pub add --dev very_good_analysis`
 
 ### 2.0 Dependencies Setup
-- [ ] 2.1 Add runtime dependencies:
+- [x] 2.1 Add runtime dependencies:
   ```bash
   flutter pub add flutter_riverpod riverpod_annotation freezed_annotation json_annotation
   flutter pub add http connectivity_plus receive_sharing_intent
   flutter pub add dynamic_color go_router share_plus
   flutter pub add flutter_localizations --sdk=flutter
   ```
-- [ ] 2.2 Add dev dependencies:
+- [x] 2.2 Add dev dependencies:
   ```bash
   flutter pub add --dev build_runner riverpod_generator riverpod_lint
-  flutter pub add --dev freezed json_serializable custom_lint
+  flutter pub add --dev freezed json_serializable custom_lint very_good_analysis
   ```
 
 ### 3.0 Flutter Intl Setup (VS Code Extension)
-- [ ] 3.1 Install VS Code extension: `localizely.flutter-intl`
-- [ ] 3.2 Open Command Palette → `Flutter Intl: Initialize`
-  > Creates `lib/l10n/intl_en.arb` and `lib/generated/` folder
-- [ ] 3.3 Add to `pubspec.yaml`:
+- [x] 3.1 Install VS Code extension: `localizely.flutter-intl`
+- [x] 3.2 Open Command Palette → `Flutter Intl: Initialize`
+  > Creates `lib/core/l10n/l10n/intl_en.arb` and `lib/core/l10n/generated/` folder
+- [x] 3.3 Add to `pubspec.yaml`:
   ```yaml
   flutter_intl:
     enabled: true
     class_name: S
     main_locale: en
-    arb_dir: lib/l10n
-    output_dir: lib/generated
+    arb_dir: lib/core/l10n/l10n
+    output_dir: lib/core/l10n/generated
   ```
-- [ ] 3.4 Setup MaterialApp with localization:
-  ```dart
-  import 'package:flutter_localizations/flutter_localizations.dart';
-  import 'generated/l10n.dart';
-  
-  MaterialApp(
-    localizationsDelegates: [
-      S.delegate,
-      GlobalMaterialLocalizations.delegate,
-      GlobalWidgetsLocalizations.delegate,
-      GlobalCupertinoLocalizations.delegate,
-    ],
-    supportedLocales: S.delegate.supportedLocales,
-  )
-  ```
-- [ ] 3.5 Add Arabic locale: Command Palette → `Flutter Intl: Add locale` → `ar`
+- [x] 3.4 Setup MaterialApp with localization
+- [x] 3.5 Add Arabic locale: Command Palette → `Flutter Intl: Add locale` → `ar`
 
 ### 4.0 Project Configuration
-- [ ] 4.1 Configure Android manifest (Share Intent, INTERNET, VIBRATE)
-- [ ] 4.2 Create folder structure with barrel files
-- [ ] 4.3 Configure `analysis_options.yaml`
-- [ ] 4.4 Configure `build.yaml`
+- [x] 4.1 Configure Android manifest (Share Intent, INTERNET, VIBRATE)
+- [x] 4.2 Create folder structure with barrel files
+- [x] 4.3 Configure `analysis_options.yaml` (very_good_analysis + custom_lint)
+- [x] 4.4 Configure `build.yaml`
 
 ### 5.0 Application Layer
-- [ ] 5.1 `app.dart` - MaterialApp with theme, router, localization
-- [ ] 5.2 `router.dart` - GoRouter configuration
-- [ ] 5.3 `theme.dart` - Material You dynamic theming (#208299)
-- [ ] 5.4 `application.dart` - Barrel file
+- [x] 5.1 `app.dart` - MaterialApp with theme, router, localization
+- [x] 5.2 `router.dart` - GoRouter configuration (using Ref)
+- [x] 5.3 `theme.dart` - Material You dynamic theming (#208299)
+- [x] 5.4 `application.dart` - Barrel file
 
 ### 6.0 Core Layer
-- [ ] 6.1 `constants.dart` - Regex patterns, timeouts, User-Agent
-- [ ] 6.2 `clipboard_service.dart` - Clipboard operations
-- [ ] 6.3 `haptic_service.dart` - Haptic feedback
-- [ ] 6.4 `http_client.dart` - HTTP client with Chrome Mobile headers
-- [ ] 6.5 `core.dart` - Barrel file
+- [x] 6.1 `constants.dart` - Regex patterns, timeouts, User-Agent
+- [x] 6.2 `clipboard_service.dart` - Clipboard operations
+- [x] 6.3 `haptic_service.dart` - Haptic feedback
+- [x] 6.4 `http_client.dart` - HTTP client with Chrome Mobile headers
+- [x] 6.5 `core.dart` - Barrel file
 
 ### 7.0 URL Cleaner - Domain
 - [ ] 7.1 `tiktok_url.dart` - @freezed entity

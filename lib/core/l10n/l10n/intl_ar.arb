@@ -1,0 +1,38 @@
+{
+  "@@locale": "ar",
+  "appName": "UNTRACED",
+  "appTagline": "إزالة تتبع تيك توك",
+  "inputScreenTitle": "تنظيف رابط تيك توك",
+  "inputScreenHint": "الصق رابط تيك توك هنا",
+  "inputScreenPasteButton": "لصق",
+  "inputScreenProcessButton": "إزالة التتبع",
+  "inputScreenPrivacyNote": "رابطك يبقى خاصاً. نحن نزيل التتبع.",
+  "processingScreenTitle": "جاري إزالة التتبع...",
+  "successScreenTitle": "تم تنظيف الرابط ونسخه!",
+  "successScreenOriginalLabel": "الأصلي",
+  "successScreenCleanLabel": "النظيف",
+  "successScreenTrackingRemoved": "تمت إزالة {count} معلمات تتبع",
+  "@successScreenTrackingRemoved": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "successScreenShareButton": "مشاركة الرابط النظيف",
+  "successScreenTryAnother": "جرب رابط آخر",
+  "errorNotTikTok": "ليس رابط تيك توك",
+  "errorNetworkTimeout": "انتهت مهلة الاتصال. حاول مرة أخرى أو تحقق من الاتصال.",
+  "errorExtractionFailed": "تعذر استخراج معرف الفيديو. جرب رابطاً آخر.",
+  "errorClipboardFailed": "تعذر النسخ. حاول مرة أخرى.",
+  "errorRateLimited": "طلبات كثيرة جداً. يرجى الانتظار والمحاولة مرة أخرى.",
+  "errorCloudflareBlocked": "تيك توك يحظر الطلبات. يرجى المحاولة لاحقاً.",
+  "errorGeneric": "حدث خطأ. يرجى المحاولة مرة أخرى.",
+  "tryAgainButton": "حاول مرة أخرى",
+  "settingsTitle": "الإعدادات",
+  "settingsTheme": "المظهر",
+  "settingsThemeLight": "فاتح",
+  "settingsThemeDark": "داكن",
+  "settingsThemeSystem": "تلقائي",
+  "settingsLanguage": "اللغة"
+}
