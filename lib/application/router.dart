@@ -1,10 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import 'package:untracked/features/url_cleaner/presentation/input_screen.dart';
-import 'package:untracked/features/url_cleaner/presentation/processing_screen.dart';
-import 'package:untracked/features/url_cleaner/presentation/result_screen.dart';
+import 'package:untracked/features/url_cleaner/url_cleaner.dart';
 
 part 'router.g.dart';
 

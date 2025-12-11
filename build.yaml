@@ -4,7 +4,7 @@ targets:
       freezed:
         options:
           map: false
-          when: false
+          when: true
       json_serializable:
         options:
           explicit_to_json: true

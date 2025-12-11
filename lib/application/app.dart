@@ -2,9 +2,8 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:untracked/application/router.dart';
-import 'package:untracked/application/theme.dart';
-import 'package:untracked/core/l10n/generated/l10n.dart';
+import 'package:untracked/application/application.dart';
+import 'package:untracked/core/core.dart';
 
 /// The main application widget.
 class App extends ConsumerWidget {

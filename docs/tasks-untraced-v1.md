@@ -111,36 +111,36 @@ lib/
 - [x] 6.5 `core.dart` - Barrel file
 
 ### 7.0 URL Cleaner - Domain
-- [ ] 7.1 `tiktok_url.dart` - @freezed entity
-- [ ] 7.2 `clean_result.dart` - @freezed entity
-- [ ] 7.3 `processing_state.dart` - @freezed union
-- [ ] 7.4 `domain.dart` - Barrel file
-- [ ] 7.5 Run code generation
+- [x] 7.1 `tiktok_url.dart` - @freezed entity
+- [x] 7.2 `clean_result.dart` - @freezed entity
+- [x] 7.3 `processing_state.dart` - @freezed union
+- [x] 7.4 `domain.dart` - Barrel file
+- [x] 7.5 Run code generation
 
 ### 8.0 URL Cleaner - Infrastructure
-- [ ] 8.1 `redirect_service.dart` - HTTP redirects (5 hops, 10s timeout, mobile headers)
-- [ ] 8.2 `url_parser.dart` - Regex extraction (video ID, username)
-- [ ] 8.3 `url_cleaner_service.dart` - Orchestration
-- [ ] 8.4 `infrastructure.dart` - Barrel file
+- [x] 8.1 `redirect_service.dart` - HTTP redirects (5 hops, 10s timeout, mobile headers)
+- [x] 8.2 `url_parser.dart` - Regex extraction (video ID, username)
+- [x] 8.3 `url_cleaner_service.dart` - Orchestration
+- [x] 8.4 `infrastructure.dart` - Barrel file
 
 ### 9.0 URL Cleaner - Application
-- [ ] 9.1 `url_cleaner_notifier.dart` - @riverpod AsyncNotifier
-- [ ] 9.2 Implement `processUrl()`
-- [ ] 9.3 Implement `copyToClipboard()` with haptics
-- [ ] 9.4 Implement `shareCleanUrl()`
-- [ ] 9.5 Implement `reset()`
-- [ ] 9.6 `application.dart` - Barrel file
-- [ ] 9.7 Run code generation
+- [x] 9.1 `url_cleaner_notifier.dart` - @riverpod AsyncNotifier
+- [x] 9.2 Implement `processUrl()`
+- [x] 9.3 Implement `copyToClipboard()` with haptics
+- [x] 9.4 Implement `shareCleanUrl()`
+- [x] 9.5 Implement `reset()`
+- [x] 9.6 `application.dart` - Barrel file
+- [x] 9.7 Run code generation
 
 ### 10.0 URL Cleaner - Presentation
-- [ ] 10.1 `input_screen.dart` - Text field, paste, process
-- [ ] 10.2 `processing_screen.dart` - Loading spinner
-- [ ] 10.3 `result_screen.dart` - Success/error with before/after
-- [ ] 10.4 `widgets/tracking_badge.dart`
-- [ ] 10.5 `widgets/url_comparison_card.dart`
-- [ ] 10.6 `widgets/action_button.dart`
-- [ ] 10.7 `widgets/widgets.dart` - Barrel file
-- [ ] 10.8 `presentation.dart` - Barrel file
+- [x] 10.1 `input_screen.dart` - Text field, paste, process
+- [x] 10.2 `processing_screen.dart` - Loading spinner
+- [x] 10.3 `result_screen.dart` - Success/error with before/after
+- [x] 10.4 `widgets/tracking_badge.dart`
+- [x] 10.5 `widgets/url_comparison_card.dart`
+- [x] 10.6 `widgets/action_button.dart`
+- [x] 10.7 `widgets/widgets.dart` - Barrel file
+- [x] 10.8 `presentation.dart` - Barrel file
 
 ### 11.0 Feature Integration
 - [ ] 11.1 `url_cleaner.dart` - Feature barrel

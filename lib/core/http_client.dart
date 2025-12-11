@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
-import 'package:untracked/core/constants.dart';
+import 'package:untracked/core/core.dart';
 
 /// HTTP client configured for TikTok requests
 abstract class AppHttpClient {
