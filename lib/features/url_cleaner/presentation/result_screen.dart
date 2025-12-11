@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -72,7 +73,7 @@ class _SuccessView extends ConsumerWidget {
                 ),
               ),
 
-              const SizedBox(height: 24),
+              const Gap(24),
 
               // Title
               Text(
@@ -83,7 +84,7 @@ class _SuccessView extends ConsumerWidget {
                 textAlign: TextAlign.center,
               ),
 
-              const SizedBox(height: 32),
+              const Gap(32),
 
               // URL Comparison Card
               Card(
@@ -152,7 +153,7 @@ class _SuccessView extends ConsumerWidget {
                 label: Text(l10n.successScreenShareButton),
               ),
 
-              const SizedBox(height: 12),
+              const Gap(12),
 
               OutlinedButton(
                 onPressed: () {
@@ -162,7 +163,7 @@ class _SuccessView extends ConsumerWidget {
                 child: Text(l10n.successScreenTryAnother),
               ),
 
-              const SizedBox(height: 32),
+              const Gap(32),
             ],
           ),
         ),
@@ -263,7 +264,7 @@ class _ErrorView extends ConsumerWidget {
                 ),
               ),
 
-              const SizedBox(height: 24),
+              const Gap(24),
 
               // Error message
               Text(
@@ -274,7 +275,7 @@ class _ErrorView extends ConsumerWidget {
                 textAlign: TextAlign.center,
               ),
 
-              const SizedBox(height: 32),
+              const Gap(32),
 
               // Try again button
               FilledButton.icon(

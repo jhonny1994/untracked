@@ -143,36 +143,36 @@ lib/
 - [x] 10.8 `presentation.dart` - Barrel file
 
 ### 11.0 Feature Integration
-- [ ] 11.1 `url_cleaner.dart` - Feature barrel
-- [ ] 11.2 `features.dart` - Features barrel
-- [ ] 11.3 Wire up routes
-- [ ] 11.4 Update `main.dart` with ProviderScope
+- [x] 11.1 `url_cleaner.dart` - Feature barrel
+- [x] 11.2 `features.dart` - Features barrel
+- [x] 11.3 Wire up routes
+- [x] 11.4 Update `main.dart` with ProviderScope
 
 ### 12.0 Share Intent
-- [ ] 12.1 Configure `AndroidManifest.xml` intent-filter
-- [ ] 12.2 Integrate receive_sharing_intent
-- [ ] 12.3 Detect shared URL on launch/resume
-- [ ] 12.4 Auto-navigate to processing
-- [ ] 12.5 Handle edge cases
+- [x] 12.1 Configure `AndroidManifest.xml` intent-filter
+- [x] 12.2 Integrate receive_sharing_intent
+- [x] 12.3 Detect shared URL on launch/resume
+- [x] 12.4 Auto-navigate to processing
+- [x] 12.5 Handle edge cases
 
 ### 13.0 Error Handling
-- [ ] 13.1 Network errors
-- [ ] 13.2 Rate limiting (HTTP 429)
-- [ ] 13.3 Cloudflare blocks
-- [ ] 13.4 Regex extraction failures
-- [ ] 13.5 Clipboard failures
-- [ ] 13.6 All errors have "Try Again" button
+- [x] 13.1 Network errors
+- [x] 13.2 Rate limiting (HTTP 429)
+- [x] 13.3 Cloudflare blocks
+- [x] 13.4 Regex extraction failures
+- [x] 13.5 Clipboard failures
+- [x] 13.6 All errors have "Try Again" button
 
 ### 14.0 Internationalization Strings
-- [ ] 14.1 Add all English strings to `intl_en.arb`
-- [ ] 14.2 Add Arabic translations to `intl_ar.arb`
-- [ ] 14.3 Integrate `S.of(context)` throughout app
+- [x] 14.1 Add all English strings to `intl_en.arb`
+- [x] 14.2 Add Arabic translations to `intl_ar.arb`
+- [x] 14.3 Integrate `S.of(context)` throughout app
 
 ### 15.0 App Polish
-- [ ] 15.1 Dynamic theme switching (light/dark/system)
+- [x] 15.1 Dynamic theme switching (light/dark/system)
 - [ ] 15.2 App icon and splash screen
 - [ ] 15.3 App name and package ID
-- [ ] 15.4 Performance optimization
+- [x] 15.4 Performance optimization
 
 ### 16.0 GitHub Actions CI/CD
 - [ ] 16.1 `debug.yml` - Lint, analyze, build

@@ -12,6 +12,7 @@ class App extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
+    final settings = ref.watch(settingsProvider);
 
     return DynamicColorBuilder(
       builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
@@ -19,11 +20,13 @@ class App extends ConsumerWidget {
           title: 'UNTRACED',
           debugShowCheckedModeBanner: false,
 
-          // Theme
+          // Theme with persistence
           theme: AppTheme.light(lightDynamic),
           darkTheme: AppTheme.dark(darkDynamic),
+          themeMode: settings.themeMode,
 
-          // Localization
+          // Localization with persistence
+          locale: settings.locale,
           localizationsDelegates: const [
             S.delegate,
             GlobalMaterialLocalizations.delegate,

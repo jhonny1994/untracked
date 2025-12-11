@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:untracked/application/application.dart';
@@ -57,6 +60,16 @@ class _InputScreenState extends ConsumerState<InputScreen> {
       );
     });
 
+    // Listen for shared intents and auto-process
+    // ignore: cascade_invocations
+    ref.listen<String?>(shareIntentProvider, (previous, next) {
+      if (next != null && next.isNotEmpty) {
+        _controller.text = next;
+        unawaited(_process());
+        ref.read(shareIntentProvider.notifier).clear();
+      }
+    });
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -80,7 +93,7 @@ class _InputScreenState extends ConsumerState<InputScreen> {
                 ),
               ),
 
-              const SizedBox(height: 24),
+              const Gap(24),
 
               // Title
               Text(
@@ -91,7 +104,7 @@ class _InputScreenState extends ConsumerState<InputScreen> {
                 textAlign: TextAlign.center,
               ),
 
-              const SizedBox(height: 8),
+              const Gap(8),
 
               // Subtitle
               Text(
@@ -121,7 +134,7 @@ class _InputScreenState extends ConsumerState<InputScreen> {
                 onSubmitted: (_) => _process(),
               ),
 
-              const SizedBox(height: 16),
+              const Gap(16),
 
               // Process button
               FilledButton.icon(

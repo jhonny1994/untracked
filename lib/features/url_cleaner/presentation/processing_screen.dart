@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gap/gap.dart';
 
 import 'package:untracked/core/core.dart';
 import 'package:untracked/features/url_cleaner/url_cleaner.dart';
@@ -37,7 +38,7 @@ class ProcessingScreen extends ConsumerWidget {
                 ),
               ),
 
-              const SizedBox(height: 32),
+              const Gap(32),
 
               // Title
               Text(
@@ -48,7 +49,7 @@ class ProcessingScreen extends ConsumerWidget {
                 textAlign: TextAlign.center,
               ),
 
-              const SizedBox(height: 16),
+              const Gap(16),
 
               // URL being processed (truncated)
               if (url.isNotEmpty)
