@@ -12,7 +12,6 @@ abstract class ClipboardService {
     }
   }
 
-  /// Get text from clipboard
   static Future<String?> paste() async {
     try {
       final data = await Clipboard.getData(Clipboard.kTextPlain);
@@ -22,7 +21,6 @@ abstract class ClipboardService {
     }
   }
 
-  /// Check if clipboard has text
   static Future<bool> hasText() async {
     final text = await paste();
     return text != null && text.isNotEmpty;

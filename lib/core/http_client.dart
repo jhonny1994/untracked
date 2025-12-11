@@ -5,9 +5,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:untracked/core/core.dart';
 
-/// HTTP client configured for TikTok requests
 abstract class AppHttpClient {
-  /// Perform GET request with TikTok-compatible headers
   static Future<http.Response> get(Uri url) async {
     final client = http.Client();
     try {
@@ -20,8 +18,6 @@ abstract class AppHttpClient {
     }
   }
 
-  /// Follow redirects manually to extract final URL
-  /// Returns the final URL after all redirects
   static Future<RedirectResult> followRedirects(
     String url, {
     int maxHops = 5,
@@ -38,29 +34,24 @@ abstract class AppHttpClient {
       while (hopCount < maxHops) {
         final request = await client.getUrl(Uri.parse(currentUrl));
 
-        // Add headers
         AppConstants.httpHeaders.forEach((key, value) {
           request.headers.set(key, value);
         });
 
-        // Don't auto-follow redirects
         request.followRedirects = false;
 
         final response = await request.close().timeout(
           AppConstants.httpTimeout,
         );
 
-        // Check for redirect
         if (response.isRedirect) {
           final location = response.headers.value(HttpHeaders.locationHeader);
           if (location == null) break;
 
-          // Handle relative URLs
           currentUrl = Uri.parse(currentUrl).resolve(location).toString();
           hops.add(currentUrl);
           hopCount++;
         } else {
-          // No more redirects
           break;
         }
       }
@@ -98,7 +89,6 @@ abstract class AppHttpClient {
   }
 }
 
-/// Result of following redirects
 class RedirectResult {
   const RedirectResult({
     required this.finalUrl,
@@ -118,7 +108,6 @@ class RedirectResult {
   bool get isSuccess => error == null;
 }
 
-/// Possible redirect errors
 enum RedirectError {
   timeout,
   network,

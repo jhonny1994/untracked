@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// Reusable action button with icon
 class ActionButton extends StatelessWidget {
   const ActionButton({
     required this.label,

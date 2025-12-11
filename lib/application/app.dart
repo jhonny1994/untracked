@@ -35,7 +35,6 @@ class App extends ConsumerWidget {
           ],
           supportedLocales: S.delegate.supportedLocales,
 
-          // Router
           routerConfig: router,
         );
       },

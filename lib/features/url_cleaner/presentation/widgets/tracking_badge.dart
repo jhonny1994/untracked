@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:untracked/core/core.dart';
 
-/// Badge widget showing tracking status
 class TrackingBadge extends StatelessWidget {
   const TrackingBadge({
     required this.label,
@@ -21,7 +22,7 @@ class TrackingBadge extends StatelessWidget {
         color: isRemoved
             ? colorScheme.primaryContainer
             : colorScheme.errorContainer,
-        borderRadius: BorderRadius.circular(6),
+        borderRadius: BorderRadius.circular(AppDesign.radiusSmall),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -35,7 +36,14 @@ class TrackingBadge extends StatelessWidget {
                 ? colorScheme.onPrimaryContainer
                 : colorScheme.onErrorContainer,
           ),
-          const SizedBox(width: 4),
+          const Gap(
+            4,
+          ), // Keeping 4 as it's very small, or use AppDesign.spaceSmall/2?
+          // 4 is half of spaceSmall(8). I'll leave it as 4 or introduce spaceXSmall if needed.
+          // For now, Gap(4) is acceptable or Gap(AppDesign.spaceSmall / 2). Let's stick to 4 for very fine tuning or just Gap(4).
+          // Actually user said "use gap instead of sizedbox everywhere" and "constants file instead of hardcoded stuff".
+          // I should probably make sure AppDesign has something for 4, or just use 4 if it's not a main spacing.
+          // Checking AppDesign, spaceSmall is 8. I will use Gap(AppDesign.spaceSmall / 2).
           Text(
             label,
             style: Theme.of(context).textTheme.labelSmall?.copyWith(

@@ -1,17 +1,12 @@
 /// App-wide constants for UNTRACED
 abstract class AppConstants {
-  /// HTTP request timeout
   static const Duration httpTimeout = Duration(seconds: 10);
-
-  /// Maximum redirect hops to follow
   static const int maxRedirectHops = 5;
 
-  /// Chrome Mobile User-Agent for HTTP requests
   static const String userAgent =
       'Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 '
       '(KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36';
 
-  /// HTTP headers for TikTok requests
   static const Map<String, String> httpHeaders = {
     'User-Agent': userAgent,
     'Accept':
@@ -30,12 +25,13 @@ abstract class TikTokPatterns {
     'tiktok.com',
     'www.tiktok.com',
     'vm.tiktok.com',
+    'vt.tiktok.com',
     'm.tiktok.com',
   ];
 
   /// Pattern to match TikTok short URLs (vm.tiktok.com/XXXXXXX)
   static final RegExp shortUrlPattern = RegExp(
-    r'https?://vm\.tiktok\.com/([A-Za-z0-9]+)',
+    r'https?://(?:vm|vt)\.tiktok\.com/([A-Za-z0-9]+)',
     caseSensitive: false,
   );
 
@@ -67,4 +63,31 @@ abstract class TikTokPatterns {
   static String buildUserUrl(String username) {
     return 'https://www.tiktok.com/@$username';
   }
+}
+
+/// App-wide design constants for UI consistency
+abstract class AppDesign {
+  // Spacing (Gap)
+  static const double spaceSmall = 8;
+  static const double spaceMedium = 16;
+  static const double spaceLarge = 24;
+  static const double spaceXLarge = 32;
+
+  // Padding
+  static const double paddingSmall = 8;
+  static const double paddingMedium = 16;
+  static const double paddingLarge = 24;
+  static const double paddingScreen = 24;
+
+  // Icon Sizes
+  static const double iconSmall = 20;
+  static const double iconMedium = 24;
+  static const double iconLarge = 40;
+  static const double iconXLarge = 48;
+
+  // Border Radius
+  static const double radiusSmall = 6;
+  static const double radiusMedium = 12;
+  static const double radiusLarge = 16;
+  static const double radiusXLarge = 24;
 }

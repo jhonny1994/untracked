@@ -8,7 +8,6 @@ import 'package:untracked/application/application.dart';
 import 'package:untracked/core/core.dart';
 import 'package:untracked/features/url_cleaner/url_cleaner.dart';
 
-/// Result screen showing success or error state
 class ResultScreen extends ConsumerWidget {
   const ResultScreen({super.key});
 
@@ -25,7 +24,6 @@ class ResultScreen extends ConsumerWidget {
   }
 }
 
-/// Redirects back to home if accessed directly
 class _BackToHome extends StatelessWidget {
   const _BackToHome();
 
@@ -38,7 +36,6 @@ class _BackToHome extends StatelessWidget {
   }
 }
 
-/// Success view with URL comparison
 class _SuccessView extends ConsumerWidget {
   const _SuccessView({required this.result});
 
@@ -52,119 +49,112 @@ class _SuccessView extends ConsumerWidget {
 
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            children: [
-              const Spacer(),
-
-              // Success icon
-              Container(
-                width: 80,
-                height: 80,
-                decoration: BoxDecoration(
-                  color: colorScheme.primaryContainer,
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  Icons.check_rounded,
-                  size: 48,
-                  color: colorScheme.onPrimaryContainer,
-                ),
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 600),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppDesign.paddingScreen,
               ),
-
-              const Gap(24),
-
-              // Title
-              Text(
-                l10n.successScreenTitle,
-                style: theme.textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
-
-              const Gap(32),
-
-              // URL Comparison Card
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Original URL
-                      _UrlSection(
-                        label: l10n.successScreenOriginalLabel,
-                        url: result.originalUrl,
-                        isOriginal: true,
-                        colorScheme: colorScheme,
-                        theme: theme,
-                      ),
-
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Divider(color: colorScheme.outlineVariant),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                              ),
-                              child: Icon(
-                                Icons.arrow_downward_rounded,
-                                size: 20,
-                                color: colorScheme.primary,
-                              ),
-                            ),
-                            Expanded(
-                              child: Divider(color: colorScheme.outlineVariant),
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      // Clean URL
-                      _UrlSection(
-                        label: l10n.successScreenCleanLabel,
-                        url: result.cleanUrl,
-                        isOriginal: false,
-                        colorScheme: colorScheme,
-                        theme: theme,
-                      ),
-                    ],
+              child: Column(
+                children: [
+                  const Spacer(),
+                  Container(
+                    width: 80,
+                    height: 80,
+                    decoration: BoxDecoration(
+                      color: colorScheme.primaryContainer,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.check_rounded,
+                      size: AppDesign.iconXLarge,
+                      color: colorScheme.onPrimaryContainer,
+                    ),
                   ),
-                ),
+                  const Gap(AppDesign.spaceLarge),
+                  Text(
+                    l10n.successScreenTitle,
+                    style: theme.textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const Gap(AppDesign.spaceXLarge),
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(AppDesign.paddingMedium),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _UrlSection(
+                            label: l10n.successScreenOriginalLabel,
+                            url: result.originalUrl,
+                            isOriginal: true,
+                            colorScheme: colorScheme,
+                            theme: theme,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Divider(
+                                    color: colorScheme.outlineVariant,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                  ),
+                                  child: Icon(
+                                    Icons.arrow_downward_rounded,
+                                    size: AppDesign.iconSmall,
+                                    color: colorScheme.primary,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Divider(
+                                    color: colorScheme.outlineVariant,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          _UrlSection(
+                            label: l10n.successScreenCleanLabel,
+                            url: result.cleanUrl,
+                            isOriginal: false,
+                            colorScheme: colorScheme,
+                            theme: theme,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const Spacer(),
+                  FilledButton.icon(
+                    onPressed: () async {
+                      await HapticService.lightImpact();
+                      await SharePlus.instance.share(
+                        ShareParams(text: result.cleanUrl),
+                      );
+                    },
+                    icon: const Icon(Icons.share_rounded),
+                    label: Text(l10n.successScreenShareButton),
+                  ),
+                  const Gap(12),
+                  OutlinedButton(
+                    onPressed: () {
+                      ref.read(urlCleanerProvider.notifier).reset();
+                      context.go(AppRoutes.home);
+                    },
+                    child: Text(l10n.successScreenTryAnother),
+                  ),
+                  const Gap(AppDesign.spaceXLarge),
+                ],
               ),
-
-              const Spacer(),
-
-              // Action buttons
-              FilledButton.icon(
-                onPressed: () async {
-                  await HapticService.lightImpact();
-                  await SharePlus.instance.share(
-                    ShareParams(text: result.cleanUrl),
-                  );
-                },
-                icon: const Icon(Icons.share_rounded),
-                label: Text(l10n.successScreenShareButton),
-              ),
-
-              const Gap(12),
-
-              OutlinedButton(
-                onPressed: () {
-                  ref.read(urlCleanerProvider.notifier).reset();
-                  context.go(AppRoutes.home);
-                },
-                child: Text(l10n.successScreenTryAnother),
-              ),
-
-              const Gap(32),
-            ],
+            ),
           ),
         ),
       ),
@@ -172,7 +162,6 @@ class _SuccessView extends ConsumerWidget {
   }
 }
 
-/// URL display section
 class _UrlSection extends StatelessWidget {
   const _UrlSection({
     required this.label,
@@ -199,7 +188,7 @@ class _UrlSection extends StatelessWidget {
             color: isOriginal
                 ? colorScheme.errorContainer
                 : colorScheme.primaryContainer,
-            borderRadius: BorderRadius.circular(6),
+            borderRadius: BorderRadius.circular(AppDesign.radiusSmall),
           ),
           child: Text(
             label,
@@ -211,7 +200,7 @@ class _UrlSection extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 8),
+        const Gap(AppDesign.spaceSmall),
         Text(
           url,
           style: theme.textTheme.bodySmall?.copyWith(
@@ -227,7 +216,6 @@ class _UrlSection extends StatelessWidget {
   }
 }
 
-/// Error view
 class _ErrorView extends ConsumerWidget {
   const _ErrorView({required this.error, this.message});
 
@@ -240,53 +228,53 @@ class _ErrorView extends ConsumerWidget {
     final colorScheme = theme.colorScheme;
     final l10n = S.of(context);
 
-    final errorMessage = _getErrorMessage(l10n, error);
+    final errorMessage = message ?? _getErrorMessage(l10n, error);
 
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Error icon
-              Container(
-                width: 80,
-                height: 80,
-                decoration: BoxDecoration(
-                  color: colorScheme.errorContainer,
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  Icons.error_outline_rounded,
-                  size: 48,
-                  color: colorScheme.onErrorContainer,
-                ),
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 600),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppDesign.paddingScreen,
               ),
-
-              const Gap(24),
-
-              // Error message
-              Text(
-                errorMessage,
-                style: theme.textTheme.titleMedium?.copyWith(
-                  color: colorScheme.onSurface,
-                ),
-                textAlign: TextAlign.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 80,
+                    height: 80,
+                    decoration: BoxDecoration(
+                      color: colorScheme.errorContainer,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.error_outline_rounded,
+                      size: AppDesign.iconXLarge,
+                      color: colorScheme.onErrorContainer,
+                    ),
+                  ),
+                  const Gap(AppDesign.spaceLarge),
+                  Text(
+                    errorMessage,
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      color: colorScheme.onSurface,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const Gap(AppDesign.spaceXLarge),
+                  FilledButton.icon(
+                    onPressed: () {
+                      ref.read(urlCleanerProvider.notifier).reset();
+                      context.go(AppRoutes.home);
+                    },
+                    icon: const Icon(Icons.refresh_rounded),
+                    label: Text(l10n.tryAgainButton),
+                  ),
+                ],
               ),
-
-              const Gap(32),
-
-              // Try again button
-              FilledButton.icon(
-                onPressed: () {
-                  ref.read(urlCleanerProvider.notifier).reset();
-                  context.go(AppRoutes.home);
-                },
-                icon: const Icon(Icons.refresh_rounded),
-                label: Text(l10n.tryAgainButton),
-              ),
-            ],
+            ),
           ),
         ),
       ),
@@ -298,6 +286,7 @@ class _ErrorView extends ConsumerWidget {
       ProcessingError.notTikTok => l10n.errorNotTikTok,
       ProcessingError.timeout => l10n.errorNetworkTimeout,
       ProcessingError.network => l10n.errorNetworkTimeout,
+      ProcessingError.offlineShortLink => l10n.errorOfflineShortLink,
       ProcessingError.extractionFailed => l10n.errorExtractionFailed,
       ProcessingError.clipboardFailed => l10n.errorClipboardFailed,
       ProcessingError.rateLimited => l10n.errorRateLimited,

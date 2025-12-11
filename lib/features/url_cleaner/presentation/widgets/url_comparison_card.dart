@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:untracked/core/core.dart';
 
-/// Card showing before/after URL comparison
 class UrlComparisonCard extends StatelessWidget {
   const UrlComparisonCard({
     required this.originalUrl,
@@ -22,7 +23,7 @@ class UrlComparisonCard extends StatelessWidget {
 
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(AppDesign.paddingMedium),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -41,10 +42,12 @@ class UrlComparisonCard extends StatelessWidget {
                 children: [
                   Expanded(child: Divider(color: colorScheme.outlineVariant)),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppDesign.paddingMedium,
+                    ),
                     child: Icon(
                       Icons.arrow_downward_rounded,
-                      size: 20,
+                      size: AppDesign.iconSmall,
                       color: colorScheme.primary,
                     ),
                   ),
@@ -95,7 +98,7 @@ class _UrlRow extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           decoration: BoxDecoration(
             color: labelColor,
-            borderRadius: BorderRadius.circular(6),
+            borderRadius: BorderRadius.circular(AppDesign.radiusSmall),
           ),
           child: Text(
             label,
@@ -105,7 +108,7 @@ class _UrlRow extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 8),
+        const Gap(AppDesign.spaceSmall),
         Text(
           url,
           style: theme.textTheme.bodySmall?.copyWith(

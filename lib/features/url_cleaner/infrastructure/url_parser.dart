@@ -5,7 +5,6 @@ import 'package:untracked/features/url_cleaner/url_cleaner.dart';
 class UrlParser {
   const UrlParser();
 
-  /// Check if URL is a valid TikTok URL
   bool isTikTokUrl(String url) {
     final uri = Uri.tryParse(url);
     if (uri == null || !uri.hasScheme) return false;
@@ -15,7 +14,6 @@ class UrlParser {
     );
   }
 
-  /// Parse a TikTok URL and extract video ID and username
   TikTokUrl parse(String originalUrl, {String? resolvedUrl}) {
     final urlToParse = resolvedUrl ?? originalUrl;
 
@@ -58,7 +56,6 @@ class UrlParser {
     );
   }
 
-  /// Build a clean URL from parsed TikTok URL
   String buildCleanUrl(TikTokUrl url) {
     if (url.hasVideoId && url.hasUsername) {
       return TikTokPatterns.buildCleanUrl(url.username!, url.videoId!);
@@ -69,5 +66,15 @@ class UrlParser {
     // Fallback: strip query params from resolved/original URL
     final baseUrl = url.resolvedUrl ?? url.originalUrl;
     return TikTokPatterns.stripQueryParams(baseUrl);
+  }
+
+  String? extractUrl(String text) {
+    // Regex to match TikTok URLs buried in text
+    final urlPattern = RegExp(
+      r'https?://(?:www\.|m\.|vm\.|vt\.)?tiktok\.com/[^\s]+',
+      caseSensitive: false,
+    );
+    final match = urlPattern.firstMatch(text);
+    return match?.group(0);
   }
 }

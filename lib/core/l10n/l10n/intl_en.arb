@@ -34,5 +34,6 @@
   "settingsThemeLight": "Light",
   "settingsThemeDark": "Dark",
   "settingsThemeSystem": "System",
-  "settingsLanguage": "Language"
+  "settingsLanguage": "Language",
+  "errorOfflineShortLink": "Short links require internet connection to expand."
 }

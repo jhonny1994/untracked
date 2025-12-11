@@ -1,0 +1,39 @@
+{
+  "@@locale": "fr",
+  "appName": "UNTRACED",
+  "appTagline": "Supprimer le suivi TikTok",
+  "inputScreenTitle": "Nettoyer le lien TikTok",
+  "inputScreenHint": "Collez le lien TikTok ici",
+  "inputScreenPasteButton": "Coller",
+  "inputScreenProcessButton": "Supprimer le suivi",
+  "inputScreenPrivacyNote": "Votre lien reste privé. Nous supprimons le suivi.",
+  "processingScreenTitle": "Suppression du suivi...",
+  "successScreenTitle": "Lien nettoyé et copié !",
+  "successScreenOriginalLabel": "Original",
+  "successScreenCleanLabel": "Nettoyé",
+  "successScreenTrackingRemoved": "{count} paramètres de suivi supprimés",
+  "@successScreenTrackingRemoved": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "successScreenShareButton": "Partager le lien",
+  "successScreenTryAnother": "Essayer un autre",
+  "errorNotTikTok": "Pas un lien TikTok",
+  "errorNetworkTimeout": "Délai d'attente dépassé. Réessayez ou vérifiez la connexion.",
+  "errorExtractionFailed": "Impossible d'extraire l'ID vidéo. Essayez un autre lien.",
+  "errorClipboardFailed": "Impossible de copier. Réessayez.",
+  "errorRateLimited": "Trop de requêtes. Veuillez patienter et réessayer.",
+  "errorCloudflareBlocked": "TikTok bloque les requêtes. Veuillez réessayer plus tard.",
+  "errorGeneric": "Une erreur est survenue. Veuillez réessayer.",
+  "errorOfflineShortLink": "Les liens courts nécessitent Internet pour être étendus.",
+  "tryAgainButton": "Réessayer",
+  "settingsTitle": "Paramètres",
+  "settingsTheme": "Thème",
+  "settingsThemeLight": "Clair",
+  "settingsThemeDark": "Sombre",
+  "settingsThemeSystem": "Système",
+  "settingsLanguage": "Langue"
+}

@@ -5,14 +5,12 @@ import 'package:untracked/features/url_cleaner/url_cleaner.dart';
 
 part 'router.g.dart';
 
-/// Route paths
 abstract class AppRoutes {
   static const home = '/';
   static const processing = '/processing';
   static const result = '/result';
 }
 
-/// GoRouter provider
 @riverpod
 GoRouter router(Ref ref) {
   return GoRouter(

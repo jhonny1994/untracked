@@ -9,7 +9,6 @@ import 'package:untracked/application/application.dart';
 import 'package:untracked/core/core.dart';
 import 'package:untracked/features/url_cleaner/url_cleaner.dart';
 
-/// Input screen for pasting TikTok URLs
 class InputScreen extends ConsumerStatefulWidget {
   const InputScreen({super.key});
 
@@ -72,79 +71,130 @@ class _InputScreenState extends ConsumerState<InputScreen> {
 
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            children: [
-              const Spacer(flex: 2),
-
-              // App icon/logo area
-              Container(
-                width: 80,
-                height: 80,
-                decoration: BoxDecoration(
-                  color: colorScheme.primaryContainer,
-                  borderRadius: BorderRadius.circular(24),
-                ),
-                child: Icon(
-                  Icons.link_off_rounded,
-                  size: 40,
-                  color: colorScheme.onPrimaryContainer,
-                ),
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 600),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppDesign.paddingScreen,
               ),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: AppDesign.paddingSmall),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                          tooltip: l10n.settingsTheme,
+                          onPressed: () async {
+                            // Cycles: System -> Light -> Dark -> System
+                            final currentMode = ref
+                                .read(settingsProvider)
+                                .themeMode;
+                            final nextMode = switch (currentMode) {
+                              ThemeMode.system => ThemeMode.light,
+                              ThemeMode.light => ThemeMode.dark,
+                              ThemeMode.dark => ThemeMode.system,
+                            };
+                            await ref
+                                .read(settingsProvider.notifier)
+                                .setThemeMode(nextMode);
+                          },
+                          icon: Icon(
+                            switch (ref.watch(settingsProvider).themeMode) {
+                              ThemeMode.system => Icons.brightness_auto_rounded,
+                              ThemeMode.light => Icons.light_mode_rounded,
+                              ThemeMode.dark => Icons.dark_mode_rounded,
+                            },
+                          ),
+                        ),
+                        IconButton(
+                          tooltip: l10n.settingsLanguage,
+                          onPressed: () async {
+                            final supportedLocales =
+                                S.delegate.supportedLocales;
+                            final currentLocale =
+                                ref.read(settingsProvider).locale ??
+                                const Locale('en');
 
-              const Gap(24),
+                            final currentIndex = supportedLocales.indexWhere(
+                              (l) =>
+                                  l.languageCode == currentLocale.languageCode,
+                            );
 
-              // Title
-              Text(
-                l10n.inputScreenTitle,
-                style: theme.textTheme.headlineMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
+                            // Cycle to next locale, wrapping around
+                            final nextIndex =
+                                (currentIndex + 1) % supportedLocales.length;
+                            final nextLocale = supportedLocales[nextIndex];
 
-              const Gap(8),
-
-              // Subtitle
-              Text(
-                l10n.inputScreenPrivacyNote,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: colorScheme.onSurfaceVariant,
-                ),
-                textAlign: TextAlign.center,
-              ),
-
-              const Spacer(),
-
-              // Input field
-              TextField(
-                controller: _controller,
-                focusNode: _focusNode,
-                decoration: InputDecoration(
-                  hintText: l10n.inputScreenHint,
-                  suffixIcon: IconButton(
-                    icon: const Icon(Icons.content_paste_rounded),
-                    onPressed: _paste,
-                    tooltip: l10n.inputScreenPasteButton,
+                            await ref
+                                .read(settingsProvider.notifier)
+                                .setLocale(nextLocale);
+                          },
+                          icon: const Icon(Icons.language_rounded),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                keyboardType: TextInputType.url,
-                textInputAction: TextInputAction.go,
-                onSubmitted: (_) => _process(),
+                  const Spacer(flex: 2),
+                  Container(
+                    width: 80,
+                    height: 80,
+                    decoration: BoxDecoration(
+                      color: colorScheme.primaryContainer,
+                      borderRadius: BorderRadius.circular(
+                        AppDesign.radiusXLarge,
+                      ),
+                    ),
+                    child: Icon(
+                      Icons.link_off_rounded,
+                      size: AppDesign.iconLarge,
+                      color: colorScheme.onPrimaryContainer,
+                    ),
+                  ),
+                  const Gap(AppDesign.spaceXLarge),
+                  Text(
+                    l10n.inputScreenTitle,
+                    style: theme.textTheme.headlineMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const Gap(AppDesign.spaceSmall),
+                  Text(
+                    l10n.inputScreenPrivacyNote,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: colorScheme.onSurfaceVariant,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const Spacer(),
+                  TextField(
+                    controller: _controller,
+                    focusNode: _focusNode,
+                    decoration: InputDecoration(
+                      hintText: l10n.inputScreenHint,
+                      suffixIcon: IconButton(
+                        icon: const Icon(Icons.content_paste_rounded),
+                        onPressed: _paste,
+                        tooltip: l10n.inputScreenPasteButton,
+                      ),
+                    ),
+                    keyboardType: TextInputType.url,
+                    textInputAction: TextInputAction.go,
+                    onSubmitted: (_) => _process(),
+                  ),
+                  const Gap(AppDesign.spaceMedium),
+                  FilledButton.icon(
+                    onPressed: _process,
+                    icon: const Icon(Icons.cleaning_services_rounded),
+                    label: Text(l10n.inputScreenProcessButton),
+                  ),
+                  const Spacer(flex: 2),
+                ],
               ),
-
-              const Gap(16),
-
-              // Process button
-              FilledButton.icon(
-                onPressed: _process,
-                icon: const Icon(Icons.cleaning_services_rounded),
-                label: Text(l10n.inputScreenProcessButton),
-              ),
-
-              const Spacer(flex: 2),
-            ],
+            ),
           ),
         ),
       ),

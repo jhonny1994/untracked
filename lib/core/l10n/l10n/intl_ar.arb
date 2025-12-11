@@ -34,5 +34,6 @@
   "settingsThemeLight": "فاتح",
   "settingsThemeDark": "داكن",
   "settingsThemeSystem": "تلقائي",
-  "settingsLanguage": "اللغة"
+  "settingsLanguage": "اللغة",
+  "errorOfflineShortLink": "تتطلب الروابط القصيرة اتصالاً بالإنترنت لتوسيعها."
 }

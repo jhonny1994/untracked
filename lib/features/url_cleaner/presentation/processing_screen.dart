@@ -5,7 +5,6 @@ import 'package:gap/gap.dart';
 import 'package:untracked/core/core.dart';
 import 'package:untracked/features/url_cleaner/url_cleaner.dart';
 
-/// Loading screen shown while processing URL
 class ProcessingScreen extends ConsumerWidget {
   const ProcessingScreen({super.key});
 
@@ -23,55 +22,58 @@ class ProcessingScreen extends ConsumerWidget {
 
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Animated loading indicator
-              SizedBox(
-                width: 80,
-                height: 80,
-                child: CircularProgressIndicator(
-                  strokeWidth: 4,
-                  color: colorScheme.primary,
-                ),
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 600),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppDesign.paddingScreen,
               ),
-
-              const Gap(32),
-
-              // Title
-              Text(
-                l10n.processingScreenTitle,
-                style: theme.textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
-                textAlign: TextAlign.center,
-              ),
-
-              const Gap(16),
-
-              // URL being processed (truncated)
-              if (url.isNotEmpty)
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 12,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 80,
+                    height: 80,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 4,
+                      color: colorScheme.primary,
+                    ),
                   ),
-                  decoration: BoxDecoration(
-                    color: colorScheme.surfaceContainerHighest,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Text(
-                    url.length > 40 ? '${url.substring(0, 40)}...' : url,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: colorScheme.onSurfaceVariant,
-                      fontFamily: 'monospace',
+                  const Gap(AppDesign.spaceXLarge),
+                  Text(
+                    l10n.processingScreenTitle,
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.w600,
                     ),
                     textAlign: TextAlign.center,
                   ),
-                ),
-            ],
+                  const Gap(AppDesign.spaceMedium),
+                  if (url.isNotEmpty)
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppDesign.paddingMedium,
+                        vertical:
+                            12, // Keeping vertical padding custom as it looks specific
+                      ),
+                      decoration: BoxDecoration(
+                        color: colorScheme.surfaceContainerHighest,
+                        borderRadius: BorderRadius.circular(
+                          AppDesign.radiusMedium,
+                        ),
+                      ),
+                      child: Text(
+                        url.length > 40 ? '${url.substring(0, 40)}...' : url,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: colorScheme.onSurfaceVariant,
+                          fontFamily: 'monospace',
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                ],
+              ),
+            ),
           ),
         ),
       ),

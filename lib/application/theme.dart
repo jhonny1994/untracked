@@ -33,8 +33,6 @@ abstract class AppTheme {
     return ThemeData(
       useMaterial3: true,
       colorScheme: colorScheme,
-
-      // App bar
       appBarTheme: AppBarTheme(
         centerTitle: true,
         elevation: 0,
@@ -125,7 +123,6 @@ abstract class AppTheme {
         ),
       ),
 
-      // Snackbar
       snackBarTheme: SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(
@@ -133,7 +130,6 @@ abstract class AppTheme {
         ),
       ),
 
-      // Page transitions
       pageTransitionsTheme: const PageTransitionsTheme(
         builders: {
           TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),

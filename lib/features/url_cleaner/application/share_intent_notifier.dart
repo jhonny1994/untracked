@@ -4,7 +4,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'share_intent_notifier.g.dart';
 
-/// Notifier for handling shared intents from other apps
 @riverpod
 class ShareIntentNotifier extends _$ShareIntentNotifier {
   @override

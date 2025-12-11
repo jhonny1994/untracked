@@ -63,7 +63,6 @@ class SettingsNotifier extends _$SettingsNotifier {
     state = SettingsState(themeMode: themeMode, locale: locale);
   }
 
-  /// Set app theme mode
   Future<void> setThemeMode(ThemeMode mode) async {
     state = state.copyWith(themeMode: mode);
 
@@ -76,7 +75,6 @@ class SettingsNotifier extends _$SettingsNotifier {
     await prefs.setString(_themeKey, value);
   }
 
-  /// Set app locale
   Future<void> setLocale(Locale? locale) async {
     state = state.copyWith(locale: locale);
 

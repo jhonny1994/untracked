@@ -11,20 +11,51 @@ class UrlCleanerService {
   final RedirectService redirectService;
   final UrlParser urlParser;
 
-  /// Clean a TikTok URL by following redirects and stripping tracking params
   Future<({CleanResult? result, ProcessingError? error})> cleanUrl(
     String inputUrl,
   ) async {
-    // Validate it's a TikTok URL
-    if (!urlParser.isTikTokUrl(inputUrl)) {
+    final extractedUrl = urlParser.extractUrl(inputUrl) ?? inputUrl;
+
+    if (!urlParser.isTikTokUrl(extractedUrl)) {
       return (result: null, error: ProcessingError.notTikTok);
     }
 
-    // Follow redirects to get the final URL
-    final redirectResult = await redirectService.resolveUrl(inputUrl);
+    // Smart Offline Mode: If it's already a full video URL (canonical), we don't strictly need network.
+    final preCheckUrl = urlParser.parse(extractedUrl);
+    if (preCheckUrl.hasVideoId || preCheckUrl.hasUsername) {
+      // It's already canonical or a user profile.
+      // We can skip the redirect network call and just clean it directly.
+      final cleanUrl = urlParser.buildCleanUrl(preCheckUrl);
+      return (
+        result: CleanResult(
+          original: preCheckUrl,
+          cleanUrl: cleanUrl,
+          strippedParams: extractedUrl.contains('?'),
+        ),
+        error: null,
+      );
+    }
 
-    // Handle redirect errors
+    // Follow redirects for short links (vm/vt.tiktok.com) or non-canonical links
+    final redirectResult = await redirectService.resolveUrl(extractedUrl);
+
+    // Handle redirect errors with Regex Fallback
     if (redirectResult.hasError) {
+      // If network failed but we have a partially valid URL that we can validly clean
+      // via regex, let's try that as a fallback instead of erroring out.
+      // e.g. if we have a full URL but 403 Forbidden happened.
+      if (preCheckUrl.isValid) {
+        final cleanUrl = urlParser.buildCleanUrl(preCheckUrl);
+        return (
+          result: CleanResult(
+            original: preCheckUrl,
+            cleanUrl: cleanUrl,
+            strippedParams: extractedUrl.contains('?'),
+          ),
+          error: null,
+        );
+      }
+
       return (
         result: null,
         error: _mapRedirectError(redirectResult.error!),
@@ -33,7 +64,7 @@ class UrlCleanerService {
 
     // Parse the resolved URL
     final parsedUrl = urlParser.parse(
-      inputUrl,
+      extractedUrl,
       resolvedUrl: redirectResult.finalUrl,
     );
 
@@ -51,7 +82,7 @@ class UrlCleanerService {
         cleanUrl: cleanUrl,
         redirectHops: redirectResult.hopCount,
         strippedParams:
-            inputUrl.contains('?') ||
+            extractedUrl.contains('?') ||
             (redirectResult.finalUrl.contains('?') && !cleanUrl.contains('?')),
       ),
       error: null,
