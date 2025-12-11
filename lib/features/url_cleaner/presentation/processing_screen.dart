@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
+import 'package:untracked/application/application.dart';
 import 'package:untracked/core/core.dart';
 import 'package:untracked/features/url_cleaner/url_cleaner.dart';
 
@@ -13,6 +15,16 @@ class ProcessingScreen extends ConsumerWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final l10n = S.of(context);
+
+    // Listen to state changes and navigate when processing completes
+    ref.listen<ProcessingState>(urlCleanerProvider, (previous, next) {
+      next.when(
+        initial: () => context.go(AppRoutes.home),
+        loading: (_) {},
+        success: (_) => context.go(AppRoutes.result),
+        error: (_, _) => context.go(AppRoutes.result),
+      );
+    });
 
     final state = ref.watch(urlCleanerProvider);
     final url = state.maybeWhen(

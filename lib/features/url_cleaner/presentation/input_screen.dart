@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:language_code/language_code.dart';
 
 import 'package:untracked/application/application.dart';
 import 'package:untracked/core/core.dart';
 import 'package:untracked/features/url_cleaner/url_cleaner.dart';
 
+/// Input screen for pasting and processing TikTok links.
 class InputScreen extends ConsumerStatefulWidget {
   const InputScreen({super.key});
 
@@ -43,6 +45,14 @@ class _InputScreenState extends ConsumerState<InputScreen> {
     await ref.read(urlCleanerProvider.notifier).processUrl(url);
   }
 
+  void _onSharedIntent(String? previous, String? next) {
+    if (next != null && next.isNotEmpty) {
+      _controller.text = next;
+      unawaited(_process());
+      ref.read(shareIntentProvider.notifier).clear();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -61,13 +71,7 @@ class _InputScreenState extends ConsumerState<InputScreen> {
 
     // Listen for shared intents and auto-process
     // ignore: cascade_invocations
-    ref.listen<String?>(shareIntentProvider, (previous, next) {
-      if (next != null && next.isNotEmpty) {
-        _controller.text = next;
-        unawaited(_process());
-        ref.read(shareIntentProvider.notifier).clear();
-      }
-    });
+    ref.listen<String?>(shareIntentProvider, _onSharedIntent);
 
     return Scaffold(
       body: SafeArea(
@@ -80,64 +84,18 @@ class _InputScreenState extends ConsumerState<InputScreen> {
               ),
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: AppDesign.paddingSmall),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        IconButton(
-                          tooltip: l10n.settingsTheme,
-                          onPressed: () async {
-                            // Cycles: System -> Light -> Dark -> System
-                            final currentMode = ref
-                                .read(settingsProvider)
-                                .themeMode;
-                            final nextMode = switch (currentMode) {
-                              ThemeMode.system => ThemeMode.light,
-                              ThemeMode.light => ThemeMode.dark,
-                              ThemeMode.dark => ThemeMode.system,
-                            };
-                            await ref
-                                .read(settingsProvider.notifier)
-                                .setThemeMode(nextMode);
-                          },
-                          icon: Icon(
-                            switch (ref.watch(settingsProvider).themeMode) {
-                              ThemeMode.system => Icons.brightness_auto_rounded,
-                              ThemeMode.light => Icons.light_mode_rounded,
-                              ThemeMode.dark => Icons.dark_mode_rounded,
-                            },
-                          ),
-                        ),
-                        IconButton(
-                          tooltip: l10n.settingsLanguage,
-                          onPressed: () async {
-                            final supportedLocales =
-                                S.delegate.supportedLocales;
-                            final currentLocale =
-                                ref.read(settingsProvider).locale ??
-                                const Locale('en');
-
-                            final currentIndex = supportedLocales.indexWhere(
-                              (l) =>
-                                  l.languageCode == currentLocale.languageCode,
-                            );
-
-                            // Cycle to next locale, wrapping around
-                            final nextIndex =
-                                (currentIndex + 1) % supportedLocales.length;
-                            final nextLocale = supportedLocales[nextIndex];
-
-                            await ref
-                                .read(settingsProvider.notifier)
-                                .setLocale(nextLocale);
-                          },
-                          icon: const Icon(Icons.language_rounded),
-                        ),
-                      ],
-                    ),
+                  const Gap(AppDesign.spaceSmall),
+                  // Settings row
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      _ThemeToggleButton(),
+                      const Gap(AppDesign.spaceSmall),
+                      _LanguageDropdown(),
+                    ],
                   ),
                   const Spacer(flex: 2),
+                  // App icon
                   Container(
                     width: 80,
                     height: 80,
@@ -170,6 +128,7 @@ class _InputScreenState extends ConsumerState<InputScreen> {
                     textAlign: TextAlign.center,
                   ),
                   const Spacer(),
+                  // URL input
                   TextField(
                     controller: _controller,
                     focusNode: _focusNode,
@@ -196,6 +155,122 @@ class _InputScreenState extends ConsumerState<InputScreen> {
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Minimal circular icon button for theme toggle.
+class _ThemeToggleButton extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = S.of(context);
+    final themeMode = ref.watch(settingsProvider).themeMode;
+
+    final icon = switch (themeMode) {
+      ThemeMode.system => Icons.brightness_auto_rounded,
+      ThemeMode.light => Icons.light_mode_rounded,
+      ThemeMode.dark => Icons.dark_mode_rounded,
+    };
+
+    final tooltip = switch (themeMode) {
+      ThemeMode.system => l10n.settingsThemeSystem,
+      ThemeMode.light => l10n.settingsThemeLight,
+      ThemeMode.dark => l10n.settingsThemeDark,
+    };
+
+    return IconButton.filled(
+      onPressed: () async {
+        await HapticService.selectionClick();
+        final nextMode = switch (themeMode) {
+          ThemeMode.system => ThemeMode.light,
+          ThemeMode.light => ThemeMode.dark,
+          ThemeMode.dark => ThemeMode.system,
+        };
+        await ref.read(settingsProvider.notifier).setThemeMode(nextMode);
+      },
+      icon: Icon(icon),
+      tooltip: tooltip,
+      style: IconButton.styleFrom(
+        backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+        foregroundColor: Theme.of(context).colorScheme.onSurface,
+      ),
+    );
+  }
+}
+
+/// Minimal language selector dropdown.
+class _LanguageDropdown extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final supportedLocales = S.delegate.supportedLocales;
+    final currentLocale =
+        ref.watch(settingsProvider).locale ?? const Locale('en');
+
+    return PopupMenuButton<Locale>(
+      initialValue: currentLocale,
+      tooltip: S.of(context).settingsLanguage,
+      onSelected: (locale) async {
+        await HapticService.selectionClick();
+        await ref.read(settingsProvider.notifier).setLocale(locale);
+      },
+      position: PopupMenuPosition.under,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppDesign.radiusMedium),
+      ),
+      itemBuilder: (context) => supportedLocales.map((locale) {
+        final langCode = LanguageCodes.fromCode(locale.languageCode);
+        final isSelected = locale.languageCode == currentLocale.languageCode;
+
+        return PopupMenuItem<Locale>(
+          value: locale,
+          child: Row(
+            children: [
+              if (isSelected)
+                Icon(
+                  Icons.check_rounded,
+                  size: 18,
+                  color: colorScheme.primary,
+                )
+              else
+                const SizedBox(width: 18),
+              const Gap(AppDesign.spaceMedium),
+              Text(
+                langCode.nativeName,
+                style: TextStyle(
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                ),
+              ),
+            ],
+          ),
+        );
+      }).toList(),
+      child: Container(
+        height: 40,
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        decoration: BoxDecoration(
+          color: colorScheme.surfaceContainerHighest,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.language_rounded,
+              size: 20,
+              color: colorScheme.onSurface,
+            ),
+            const Gap(6),
+            Text(
+              currentLocale.languageCode.toUpperCase(),
+              style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                color: colorScheme.onSurface,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
         ),
       ),
     );

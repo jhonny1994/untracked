@@ -8,6 +8,7 @@ import 'package:untracked/application/application.dart';
 import 'package:untracked/core/core.dart';
 import 'package:untracked/features/url_cleaner/url_cleaner.dart';
 
+/// Result screen displaying success or error states.
 class ResultScreen extends ConsumerWidget {
   const ResultScreen({super.key});
 
@@ -58,17 +59,18 @@ class _SuccessView extends ConsumerWidget {
               ),
               child: Column(
                 children: [
-                  const Spacer(),
+                  const Spacer(flex: 2),
+                  // Success icon
                   Container(
-                    width: 80,
-                    height: 80,
+                    width: 100,
+                    height: 100,
                     decoration: BoxDecoration(
                       color: colorScheme.primaryContainer,
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
                       Icons.check_rounded,
-                      size: AppDesign.iconXLarge,
+                      size: 56,
                       color: colorScheme.onPrimaryContainer,
                     ),
                   ),
@@ -80,60 +82,53 @@ class _SuccessView extends ConsumerWidget {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  const Gap(AppDesign.spaceXLarge),
-                  Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(AppDesign.paddingMedium),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _UrlSection(
-                            label: l10n.successScreenOriginalLabel,
-                            url: result.originalUrl,
-                            isOriginal: true,
-                            colorScheme: colorScheme,
-                            theme: theme,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 12),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Divider(
-                                    color: colorScheme.outlineVariant,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 12,
-                                  ),
-                                  child: Icon(
-                                    Icons.arrow_downward_rounded,
-                                    size: AppDesign.iconSmall,
-                                    color: colorScheme.primary,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Divider(
-                                    color: colorScheme.outlineVariant,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          _UrlSection(
-                            label: l10n.successScreenCleanLabel,
-                            url: result.cleanUrl,
-                            isOriginal: false,
-                            colorScheme: colorScheme,
-                            theme: theme,
-                          ),
-                        ],
+                  const Gap(AppDesign.spaceMedium),
+                  // Clean URL display
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(AppDesign.paddingMedium),
+                    decoration: BoxDecoration(
+                      color: colorScheme.surfaceContainerHighest,
+                      borderRadius: BorderRadius.circular(
+                        AppDesign.radiusMedium,
                       ),
+                    ),
+                    child: SelectableText(
+                      result.cleanUrl,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        fontFamily: 'monospace',
+                        color: colorScheme.onSurface,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                   const Spacer(),
+                  // Copy button
                   FilledButton.icon(
+                    onPressed: () async {
+                      await HapticService.copy();
+                      final success = await ClipboardService.copy(
+                        result.cleanUrl,
+                      );
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              success
+                                  ? l10n.successScreenCopied
+                                  : l10n.errorClipboardFailed,
+                            ),
+                            duration: const Duration(seconds: 2),
+                          ),
+                        );
+                      }
+                    },
+                    icon: const Icon(Icons.copy_rounded),
+                    label: Text(l10n.successScreenCopyButton),
+                  ),
+                  const Gap(AppDesign.spaceMedium),
+                  // Share button
+                  FilledButton.tonalIcon(
                     onPressed: () async {
                       await HapticService.lightImpact();
                       await SharePlus.instance.share(
@@ -143,15 +138,16 @@ class _SuccessView extends ConsumerWidget {
                     icon: const Icon(Icons.share_rounded),
                     label: Text(l10n.successScreenShareButton),
                   ),
-                  const Gap(12),
-                  OutlinedButton(
+                  const Gap(AppDesign.spaceMedium),
+                  // Try another button
+                  TextButton(
                     onPressed: () {
                       ref.read(urlCleanerProvider.notifier).reset();
                       context.go(AppRoutes.home);
                     },
                     child: Text(l10n.successScreenTryAnother),
                   ),
-                  const Gap(AppDesign.spaceXLarge),
+                  const Spacer(),
                 ],
               ),
             ),
@@ -162,60 +158,7 @@ class _SuccessView extends ConsumerWidget {
   }
 }
 
-class _UrlSection extends StatelessWidget {
-  const _UrlSection({
-    required this.label,
-    required this.url,
-    required this.isOriginal,
-    required this.colorScheme,
-    required this.theme,
-  });
-
-  final String label;
-  final String url;
-  final bool isOriginal;
-  final ColorScheme colorScheme;
-  final ThemeData theme;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          decoration: BoxDecoration(
-            color: isOriginal
-                ? colorScheme.errorContainer
-                : colorScheme.primaryContainer,
-            borderRadius: BorderRadius.circular(AppDesign.radiusSmall),
-          ),
-          child: Text(
-            label,
-            style: theme.textTheme.labelSmall?.copyWith(
-              color: isOriginal
-                  ? colorScheme.onErrorContainer
-                  : colorScheme.onPrimaryContainer,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
-        const Gap(AppDesign.spaceSmall),
-        Text(
-          url,
-          style: theme.textTheme.bodySmall?.copyWith(
-            color: colorScheme.onSurfaceVariant,
-            fontFamily: 'monospace',
-            decoration: isOriginal ? TextDecoration.lineThrough : null,
-          ),
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-        ),
-      ],
-    );
-  }
-}
-
+/// Error view with retry option.
 class _ErrorView extends ConsumerWidget {
   const _ErrorView({required this.error, this.message});
 

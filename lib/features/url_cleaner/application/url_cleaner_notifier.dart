@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:untracked/core/core.dart';
@@ -40,28 +42,35 @@ class UrlCleanerNotifier extends _$UrlCleanerNotifier {
     // Set loading state
     state = ProcessingState.loading(url: trimmedUrl);
 
-    // Clean the URL
-    final (:result, :error) = await _cleanerService.cleanUrl(trimmedUrl);
+    // Clean the URL with timeout protection
+    try {
+      final (:result, :error) = await _cleanerService
+          .cleanUrl(trimmedUrl)
+          .timeout(const Duration(seconds: 15));
 
-    if (error != null) {
+      if (error != null) {
+        await HapticService.error();
+        state = ProcessingState.error(error: error);
+        return;
+      }
+
+      // Success - copy to clipboard automatically
+      final copied = await ClipboardService.copy(result!.cleanUrl);
+
+      if (!copied) {
+        await HapticService.error();
+        state = const ProcessingState.error(
+          error: ProcessingError.clipboardFailed,
+        );
+        return;
+      }
+
+      await HapticService.success();
+      state = ProcessingState.success(result: result);
+    } on TimeoutException {
       await HapticService.error();
-      state = ProcessingState.error(error: error);
-      return;
+      state = const ProcessingState.error(error: ProcessingError.timeout);
     }
-
-    // Success - copy to clipboard automatically
-    final copied = await ClipboardService.copy(result!.cleanUrl);
-
-    if (!copied) {
-      await HapticService.error();
-      state = const ProcessingState.error(
-        error: ProcessingError.clipboardFailed,
-      );
-      return;
-    }
-
-    await HapticService.success();
-    state = ProcessingState.success(result: result);
   }
 
   Future<bool> copyToClipboard() async {

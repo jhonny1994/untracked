@@ -19,7 +19,9 @@
       }
     }
   },
-  "successScreenShareButton": "Share Clean Link",
+  "successScreenCopyButton": "Copy",
+  "successScreenCopied": "Copied to clipboard!",
+  "successScreenShareButton": "Share",
   "successScreenTryAnother": "Try Another",
   "errorNotTikTok": "Not a TikTok URL",
   "errorNetworkTimeout": "Network timeout. Try again or check connection.",

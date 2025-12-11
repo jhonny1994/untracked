@@ -19,7 +19,9 @@
       }
     }
   },
-  "successScreenShareButton": "مشاركة الرابط النظيف",
+  "successScreenCopyButton": "نسخ",
+  "successScreenCopied": "تم النسخ!",
+  "successScreenShareButton": "مشاركة",
   "successScreenTryAnother": "جرب رابط آخر",
   "errorNotTikTok": "ليس رابط تيك توك",
   "errorNetworkTimeout": "انتهت مهلة الاتصال. حاول مرة أخرى أو تحقق من الاتصال.",

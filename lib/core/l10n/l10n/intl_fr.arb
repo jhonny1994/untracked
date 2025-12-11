@@ -19,7 +19,9 @@
       }
     }
   },
-  "successScreenShareButton": "Partager le lien",
+  "successScreenCopyButton": "Copier",
+  "successScreenCopied": "Copié dans le presse-papiers !",
+  "successScreenShareButton": "Partager",
   "successScreenTryAnother": "Essayer un autre",
   "errorNotTikTok": "Pas un lien TikTok",
   "errorNetworkTimeout": "Délai d'attente dépassé. Réessayez ou vérifiez la connexion.",
