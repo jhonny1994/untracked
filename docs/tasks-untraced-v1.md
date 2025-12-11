@@ -170,15 +170,15 @@ lib/
 
 ### 15.0 App Polish
 - [x] 15.1 Dynamic theme switching (light/dark/system)
-- [ ] 15.2 App icon and splash screen
-- [ ] 15.3 App name and package ID
+- [x] 15.2 App icon and splash screen
+- [x] 15.3 App name and package ID
 - [x] 15.4 Performance optimization
 
 ### 16.0 GitHub Actions CI/CD
-- [ ] 16.1 `debug.yml` - Lint, analyze, build
-- [ ] 16.2 `release.yml` - Signed production build
-- [ ] 16.3 Configure signing secrets
-- [ ] 16.4 APK/AAB artifact upload
+- [x] 16.1 `debug.yml` - Lint, analyze, build
+- [x] 16.2 `release.yml` - Signed production build
+- [x] 16.3 Configure signing secrets
+- [x] 16.4 APK/AAB artifact upload
 
 ### 17.0 Store Preparation
 - [ ] 17.1 Privacy policy (zero data collection)
