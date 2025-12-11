@@ -17,7 +17,7 @@ class App extends ConsumerWidget {
     return DynamicColorBuilder(
       builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
         return MaterialApp.router(
-          title: 'UNTRACED',
+          onGenerateTitle: (context) => S.of(context).appName,
           debugShowCheckedModeBanner: false,
 
           // Theme with persistence

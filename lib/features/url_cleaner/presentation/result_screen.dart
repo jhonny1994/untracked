@@ -61,17 +61,20 @@ class _SuccessView extends ConsumerWidget {
                 children: [
                   const Spacer(flex: 2),
                   // Success icon
-                  Container(
-                    width: 100,
-                    height: 100,
-                    decoration: BoxDecoration(
-                      color: colorScheme.primaryContainer,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      Icons.check_rounded,
-                      size: 56,
-                      color: colorScheme.onPrimaryContainer,
+                  Semantics(
+                    label: l10n.accessibilitySuccess,
+                    child: Container(
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        color: colorScheme.primaryContainer,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.check_rounded,
+                        size: 56,
+                        color: colorScheme.onPrimaryContainer,
+                      ),
                     ),
                   ),
                   const Gap(AppDesign.spaceLarge),
@@ -84,22 +87,25 @@ class _SuccessView extends ConsumerWidget {
                   ),
                   const Gap(AppDesign.spaceMedium),
                   // Clean URL display
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(AppDesign.paddingMedium),
-                    decoration: BoxDecoration(
-                      color: colorScheme.surfaceContainerHighest,
-                      borderRadius: BorderRadius.circular(
-                        AppDesign.radiusMedium,
+                  Semantics(
+                    label: l10n.accessibilityCleanUrl,
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(AppDesign.paddingMedium),
+                      decoration: BoxDecoration(
+                        color: colorScheme.surfaceContainerHighest,
+                        borderRadius: BorderRadius.circular(
+                          AppDesign.radiusMedium,
+                        ),
                       ),
-                    ),
-                    child: SelectableText(
-                      result.cleanUrl,
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        fontFamily: 'monospace',
-                        color: colorScheme.onSurface,
+                      child: SelectableText(
+                        result.cleanUrl,
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          fontFamily: 'monospace',
+                          color: colorScheme.onSurface,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
-                      textAlign: TextAlign.center,
                     ),
                   ),
                   const Spacer(),
@@ -141,9 +147,10 @@ class _SuccessView extends ConsumerWidget {
                   const Gap(AppDesign.spaceMedium),
                   // Try another button
                   TextButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      await HapticService.lightImpact();
                       ref.read(urlCleanerProvider.notifier).reset();
-                      context.go(AppRoutes.home);
+                      if (context.mounted) context.go(AppRoutes.home);
                     },
                     child: Text(l10n.successScreenTryAnother),
                   ),
@@ -185,17 +192,20 @@ class _ErrorView extends ConsumerWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    width: 80,
-                    height: 80,
-                    decoration: BoxDecoration(
-                      color: colorScheme.errorContainer,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      Icons.error_outline_rounded,
-                      size: AppDesign.iconXLarge,
-                      color: colorScheme.onErrorContainer,
+                  Semantics(
+                    label: l10n.accessibilityError,
+                    child: Container(
+                      width: 80,
+                      height: 80,
+                      decoration: BoxDecoration(
+                        color: colorScheme.errorContainer,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.error_outline_rounded,
+                        size: AppDesign.iconXLarge,
+                        color: colorScheme.onErrorContainer,
+                      ),
                     ),
                   ),
                   const Gap(AppDesign.spaceLarge),
@@ -208,9 +218,10 @@ class _ErrorView extends ConsumerWidget {
                   ),
                   const Gap(AppDesign.spaceXLarge),
                   FilledButton.icon(
-                    onPressed: () {
+                    onPressed: () async {
+                      await HapticService.lightImpact();
                       ref.read(urlCleanerProvider.notifier).reset();
-                      context.go(AppRoutes.home);
+                      if (context.mounted) context.go(AppRoutes.home);
                     },
                     icon: const Icon(Icons.refresh_rounded),
                     label: Text(l10n.tryAgainButton),

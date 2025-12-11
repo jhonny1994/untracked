@@ -16,6 +16,11 @@ abstract class AppConstants {
     'Connection': 'keep-alive',
     'Upgrade-Insecure-Requests': '1',
   };
+
+  // Retry configuration for exponential backoff
+  static const int maxRetries = 3;
+  static const Duration initialBackoff = Duration(milliseconds: 1000);
+  static const Duration maxBackoff = Duration(milliseconds: 8000);
 }
 
 /// TikTok URL patterns for validation and extraction

@@ -1,11 +1,12 @@
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import 'package:untracked/features/url_cleaner/url_cleaner.dart';
+import 'package:untracked/features/features.dart';
 
 part 'router.g.dart';
 
 abstract class AppRoutes {
+  static const onboarding = '/onboarding';
   static const home = '/';
   static const processing = '/processing';
   static const result = '/result';
@@ -13,9 +14,16 @@ abstract class AppRoutes {
 
 @riverpod
 GoRouter router(Ref ref) {
+  final hasSeenOnboarding = ref.watch(onboardingProvider);
+
   return GoRouter(
-    initialLocation: AppRoutes.home,
+    initialLocation: hasSeenOnboarding ? AppRoutes.home : AppRoutes.onboarding,
     routes: [
+      GoRoute(
+        path: AppRoutes.onboarding,
+        name: 'onboarding',
+        builder: (context, state) => const OnboardingScreen(),
+      ),
       GoRoute(
         path: AppRoutes.home,
         name: 'home',

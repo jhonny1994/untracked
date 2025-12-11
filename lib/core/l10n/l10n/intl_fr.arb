@@ -9,16 +9,6 @@
   "inputScreenPrivacyNote": "Votre lien reste privé. Nous supprimons le suivi.",
   "processingScreenTitle": "Suppression du suivi...",
   "successScreenTitle": "Lien nettoyé et copié !",
-  "successScreenOriginalLabel": "Original",
-  "successScreenCleanLabel": "Nettoyé",
-  "successScreenTrackingRemoved": "{count} paramètres de suivi supprimés",
-  "@successScreenTrackingRemoved": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "successScreenCopyButton": "Copier",
   "successScreenCopied": "Copié dans le presse-papiers !",
   "successScreenShareButton": "Partager",
@@ -37,5 +27,22 @@
   "settingsThemeLight": "Clair",
   "settingsThemeDark": "Sombre",
   "settingsThemeSystem": "Système",
-  "settingsLanguage": "Langue"
+  "settingsLanguage": "Langue",
+  "processingScreenCancel": "Annuler",
+  "processingScreenTimeout": "Cela prend plus de temps que prévu...",
+  "accessibilityAppIcon": "Icône UNTRACED, outil de nettoyage de liens",
+  "accessibilityUrlInput": "Champ de saisie du lien TikTok",
+  "accessibilityProcessing": "Traitement de l'URL en cours, veuillez patienter",
+  "accessibilitySuccess": "Lien nettoyé avec succès",
+  "accessibilityError": "Une erreur s'est produite",
+  "accessibilityCleanUrl": "Lien nettoyé prêt à copier",
+  "onboardingTitle1": "Bienvenue sur UNTRACED",
+  "onboardingBody1": "Partagez des liens TikTok sans exposer votre profil ou vos données de suivi.",
+  "onboardingTitle2": "Comment ça marche",
+  "onboardingBody2": "Collez un lien TikTok → On supprime le suivi → Copiez ou partagez le lien propre.",
+  "onboardingTitle3": "Votre vie privée compte",
+  "onboardingBody3": "Tout le traitement se fait sur votre appareil. Nous ne stockons ni n'envoyons vos liens nulle part.",
+  "onboardingGetStarted": "Commencer",
+  "onboardingNext": "Suivant",
+  "onboardingSkip": "Passer"
 }

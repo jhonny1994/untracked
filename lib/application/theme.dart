@@ -5,6 +5,73 @@ abstract class AppTheme {
   /// Primary brand color - Teal accent from PRD
   static const Color _primaryColor = Color(0xFF208299);
 
+  /// Custom text theme with Noto Sans for RTL/LTR support
+  static TextTheme _buildTextTheme(TextTheme base) {
+    return base.copyWith(
+      displayLarge: base.displayLarge?.copyWith(
+        fontFamily: 'Noto Sans',
+        fontWeight: FontWeight.w400,
+        letterSpacing: -0.5,
+      ),
+      displayMedium: base.displayMedium?.copyWith(
+        fontFamily: 'Noto Sans',
+        fontWeight: FontWeight.w400,
+      ),
+      displaySmall: base.displaySmall?.copyWith(
+        fontFamily: 'Noto Sans',
+        fontWeight: FontWeight.w400,
+      ),
+      headlineLarge: base.headlineLarge?.copyWith(
+        fontFamily: 'Noto Sans',
+        fontWeight: FontWeight.w600,
+      ),
+      headlineMedium: base.headlineMedium?.copyWith(
+        fontFamily: 'Noto Sans',
+        fontWeight: FontWeight.w600,
+      ),
+      headlineSmall: base.headlineSmall?.copyWith(
+        fontFamily: 'Noto Sans',
+        fontWeight: FontWeight.w600,
+      ),
+      titleLarge: base.titleLarge?.copyWith(
+        fontFamily: 'Noto Sans',
+        fontWeight: FontWeight.w600,
+      ),
+      titleMedium: base.titleMedium?.copyWith(
+        fontFamily: 'Noto Sans',
+        fontWeight: FontWeight.w500,
+      ),
+      titleSmall: base.titleSmall?.copyWith(
+        fontFamily: 'Noto Sans',
+        fontWeight: FontWeight.w500,
+      ),
+      bodyLarge: base.bodyLarge?.copyWith(
+        fontFamily: 'Noto Sans',
+        fontWeight: FontWeight.w400,
+      ),
+      bodyMedium: base.bodyMedium?.copyWith(
+        fontFamily: 'Noto Sans',
+        fontWeight: FontWeight.w400,
+      ),
+      bodySmall: base.bodySmall?.copyWith(
+        fontFamily: 'Noto Sans',
+        fontWeight: FontWeight.w400,
+      ),
+      labelLarge: base.labelLarge?.copyWith(
+        fontFamily: 'Noto Sans',
+        fontWeight: FontWeight.w500,
+      ),
+      labelMedium: base.labelMedium?.copyWith(
+        fontFamily: 'Noto Sans',
+        fontWeight: FontWeight.w500,
+      ),
+      labelSmall: base.labelSmall?.copyWith(
+        fontFamily: 'Noto Sans',
+        fontWeight: FontWeight.w500,
+      ),
+    );
+  }
+
   /// Light theme
   static ThemeData light([ColorScheme? dynamicColorScheme]) {
     final colorScheme =
@@ -13,7 +80,7 @@ abstract class AppTheme {
           seedColor: _primaryColor,
         );
 
-    return _buildTheme(colorScheme);
+    return _buildTheme(colorScheme, Brightness.light);
   }
 
   /// Dark theme
@@ -25,14 +92,19 @@ abstract class AppTheme {
           brightness: Brightness.dark,
         );
 
-    return _buildTheme(colorScheme);
+    return _buildTheme(colorScheme, Brightness.dark);
   }
 
   /// Build theme from color scheme
-  static ThemeData _buildTheme(ColorScheme colorScheme) {
+  static ThemeData _buildTheme(ColorScheme colorScheme, Brightness brightness) {
+    final baseTextTheme = brightness == Brightness.light
+        ? ThemeData.light().textTheme
+        : ThemeData.dark().textTheme;
+
     return ThemeData(
       useMaterial3: true,
       colorScheme: colorScheme,
+      textTheme: _buildTextTheme(baseTextTheme),
       appBarTheme: AppBarTheme(
         centerTitle: true,
         elevation: 0,

@@ -9,16 +9,6 @@
   "inputScreenPrivacyNote": "Your link stays private. We remove tracking.",
   "processingScreenTitle": "Removing tracking...",
   "successScreenTitle": "Link Cleaned & Copied!",
-  "successScreenOriginalLabel": "Original",
-  "successScreenCleanLabel": "Clean",
-  "successScreenTrackingRemoved": "{count} tracking parameters removed",
-  "@successScreenTrackingRemoved": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "successScreenCopyButton": "Copy",
   "successScreenCopied": "Copied to clipboard!",
   "successScreenShareButton": "Share",
@@ -37,5 +27,22 @@
   "settingsThemeDark": "Dark",
   "settingsThemeSystem": "System",
   "settingsLanguage": "Language",
-  "errorOfflineShortLink": "Short links require internet connection to expand."
+  "errorOfflineShortLink": "Short links require internet connection to expand.",
+  "processingScreenCancel": "Cancel",
+  "processingScreenTimeout": "Taking longer than expected...",
+  "accessibilityAppIcon": "UNTRACED app icon, link cleaning tool",
+  "accessibilityUrlInput": "TikTok URL input field",
+  "accessibilityProcessing": "Processing URL, please wait",
+  "accessibilitySuccess": "Link cleaned successfully",
+  "accessibilityError": "Error occurred",
+  "accessibilityCleanUrl": "Cleaned URL ready to copy",
+  "onboardingTitle1": "Welcome to UNTRACED",
+  "onboardingBody1": "Share TikTok links without exposing your profile or tracking data.",
+  "onboardingTitle2": "How It Works",
+  "onboardingBody2": "Paste any TikTok link → We remove tracking → Copy or share the clean link.",
+  "onboardingTitle3": "Your Privacy Matters",
+  "onboardingBody3": "All processing happens on your device. We never store or send your links anywhere.",
+  "onboardingGetStarted": "Get Started",
+  "onboardingNext": "Next",
+  "onboardingSkip": "Skip"
 }
