@@ -44,5 +44,25 @@
   "onboardingBody3": "All processing happens on your device. We never store or send your links anywhere.",
   "onboardingGetStarted": "Get Started",
   "onboardingNext": "Next",
-  "onboardingSkip": "Skip"
+  "onboardingSkip": "Skip",
+  "historyTitle": "History",
+  "historyEmpty": "No history yet",
+  "historyItemCopied": "Link copied!",
+  "settingsHistoryEnabled": "Save link history",
+  "settingsClearHistory": "Clear all history",
+  "settingsClearHistoryConfirm": "Delete all saved links?",
+  "navInput": "Input",
+  "navHistory": "History",
+  "navSettings": "Settings",
+  "cancel": "Cancel",
+  "copyToClipboard": "Copy to clipboard",
+  "settingsHistoryEnabledSubtitle": "Cleaned links are saved",
+  "settingsHistoryDisabledSubtitle": "Links are not saved",
+  "settingsClearHistoryDescription": "Delete all saved links",
+  "settingsClearHistoryAction": "Delete All",
+  "historyClearedSuccess": "History cleared",
+  "historyItemDeleted": "Link deleted",
+  "undo": "Undo",
+  "errorAlreadyClean": "This link is already clean!"
 }
+

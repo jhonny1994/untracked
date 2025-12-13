@@ -1,6 +1,9 @@
 /// App-wide constants for UNTRACED
 abstract class AppConstants {
+  // Network configuration
   static const Duration httpTimeout = Duration(seconds: 10);
+  static const Duration httpIdleTimeout = Duration(seconds: 30);
+  static const Duration processingTimeout = Duration(seconds: 15);
   static const int maxRedirectHops = 5;
 
   static const String userAgent =
@@ -21,6 +24,16 @@ abstract class AppConstants {
   static const int maxRetries = 3;
   static const Duration initialBackoff = Duration(milliseconds: 1000);
   static const Duration maxBackoff = Duration(milliseconds: 8000);
+
+  // History configuration
+  static const int maxHistoryEntries = 100;
+  static const String historyBoxName = 'link_history';
+
+  // UI configuration
+  static const Duration snackBarDuration = Duration(seconds: 2);
+  static const Duration pageAnimationDuration = Duration(milliseconds: 300);
+  static const int processingTimeoutIndicatorSeconds = 10;
+  static const int maxUrlDisplayLength = 40;
 }
 
 /// TikTok URL patterns for validation and extraction

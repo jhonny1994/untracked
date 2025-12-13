@@ -18,7 +18,7 @@ abstract class AppHttpClient {
   static HttpClient get _httpClient {
     return _client ??= HttpClient()
       ..connectionTimeout = AppConstants.httpTimeout
-      ..idleTimeout = const Duration(seconds: 30)
+      ..idleTimeout = AppConstants.httpIdleTimeout
       ..userAgent = AppConstants.userAgent;
   }
 

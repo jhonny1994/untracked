@@ -32,7 +32,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     if (_currentPage < 2) {
       unawaited(
         _pageController.nextPage(
-          duration: const Duration(milliseconds: 300),
+          duration: AppConstants.pageAnimationDuration,
           curve: Curves.easeInOut,
         ),
       );
@@ -86,19 +86,14 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            const Gap(AppDesign.spaceSmall),
-            // Settings row - consistent with InputScreen
-            const Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: AppDesign.paddingScreen,
-              ),
-              child: SettingsRow(),
-            ),
             // Page content
             Expanded(
               child: PageView(
                 controller: _pageController,
-                onPageChanged: (page) => setState(() => _currentPage = page),
+                onPageChanged: (page) {
+                  unawaited(HapticService.selectionClick());
+                  setState(() => _currentPage = page);
+                },
                 children: pages,
               ),
             ),

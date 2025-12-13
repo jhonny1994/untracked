@@ -56,6 +56,9 @@ enum ProcessingError {
   /// Failed to copy to clipboard.
   clipboardFailed,
 
+  /// URL is already clean with no tracking parameters.
+  alreadyClean,
+
   /// Unknown error occurred.
   unknown,
 }

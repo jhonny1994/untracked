@@ -87,9 +87,6 @@ class _InputScreenState extends ConsumerState<InputScreen> {
               ),
               child: Column(
                 children: [
-                  const Gap(AppDesign.spaceSmall),
-                  // Settings row
-                  const SettingsRow(),
                   const Spacer(flex: 2),
                   // App icon
                   Semantics(

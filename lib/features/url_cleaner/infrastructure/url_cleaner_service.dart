@@ -43,6 +43,13 @@ class UrlCleanerService {
     // we don't strictly need network.
     final preCheckUrl = urlParser.parse(extractedUrl);
     if (preCheckUrl.hasVideoId || preCheckUrl.hasUsername) {
+      // Check if the URL is already clean (no tracking params)
+      // If so, reject it since there's nothing to clean
+      final isAlreadyClean = !extractedUrl.contains('?');
+      if (isAlreadyClean) {
+        return (result: null, error: ProcessingError.alreadyClean);
+      }
+
       // It's already canonical or a user profile.
       // We can skip the redirect network call and just clean it directly.
       final cleanUrl = urlParser.buildCleanUrl(preCheckUrl);
@@ -50,7 +57,7 @@ class UrlCleanerService {
         result: CleanResult(
           original: preCheckUrl,
           cleanUrl: cleanUrl,
-          strippedParams: extractedUrl.contains('?'),
+          strippedParams: true,
         ),
         error: null,
       );

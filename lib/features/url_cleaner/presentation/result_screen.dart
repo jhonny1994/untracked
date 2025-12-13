@@ -124,7 +124,7 @@ class _SuccessView extends ConsumerWidget {
                                   ? l10n.successScreenCopied
                                   : l10n.errorClipboardFailed,
                             ),
-                            duration: const Duration(seconds: 2),
+                            duration: AppConstants.snackBarDuration,
                           ),
                         );
                       }
@@ -245,6 +245,7 @@ class _ErrorView extends ConsumerWidget {
       ProcessingError.clipboardFailed => l10n.errorClipboardFailed,
       ProcessingError.rateLimited => l10n.errorRateLimited,
       ProcessingError.cloudflareBlocked => l10n.errorCloudflareBlocked,
+      ProcessingError.alreadyClean => l10n.errorAlreadyClean,
       ProcessingError.unknown => l10n.errorGeneric,
     };
   }

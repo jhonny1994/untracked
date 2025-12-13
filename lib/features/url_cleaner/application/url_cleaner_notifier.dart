@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:untracked/application/application.dart';
 import 'package:untracked/core/core.dart';
+import 'package:untracked/features/link_history/link_history.dart';
 import 'package:untracked/features/url_cleaner/url_cleaner.dart';
 
 part 'url_cleaner_notifier.g.dart';
@@ -46,7 +48,7 @@ class UrlCleanerNotifier extends _$UrlCleanerNotifier {
     try {
       final (:result, :error) = await _cleanerService
           .cleanUrl(trimmedUrl)
-          .timeout(const Duration(seconds: 15));
+          .timeout(AppConstants.processingTimeout);
 
       if (error != null) {
         await HapticService.error();
@@ -67,6 +69,12 @@ class UrlCleanerNotifier extends _$UrlCleanerNotifier {
 
       await HapticService.success();
       state = ProcessingState.success(result: result);
+
+      // Save to history if enabled
+      final settings = ref.read(settingsProvider);
+      if (settings.historyEnabled) {
+        unawaited(ref.read(historyProvider.notifier).addEntry(result));
+      }
     } on TimeoutException {
       await HapticService.error();
       state = const ProcessingState.error(error: ProcessingError.timeout);

@@ -18,7 +18,6 @@ class ProcessingScreen extends ConsumerStatefulWidget {
 }
 
 class _ProcessingScreenState extends ConsumerState<ProcessingScreen> {
-  static const _timeoutSeconds = 10;
   Timer? _timer;
   int _elapsedSeconds = 0;
 
@@ -72,7 +71,8 @@ class _ProcessingScreenState extends ConsumerState<ProcessingScreen> {
       orElse: () => '',
     );
 
-    final isDelayed = _elapsedSeconds >= _timeoutSeconds;
+    final isDelayed =
+        _elapsedSeconds >= AppConstants.processingTimeoutIndicatorSeconds;
 
     return Scaffold(
       body: SafeArea(
@@ -123,7 +123,9 @@ class _ProcessingScreenState extends ConsumerState<ProcessingScreen> {
                           ),
                         ),
                         child: Text(
-                          url.length > 40 ? '${url.substring(0, 40)}...' : url,
+                          url.length > AppConstants.maxUrlDisplayLength
+                              ? '${url.substring(0, AppConstants.maxUrlDisplayLength)}...'
+                              : url,
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: colorScheme.onSurfaceVariant,
                             fontFamily: 'monospace',

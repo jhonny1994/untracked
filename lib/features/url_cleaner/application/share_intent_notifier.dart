@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -9,11 +10,20 @@ class ShareIntentNotifier extends _$ShareIntentNotifier {
   @override
   String? build() {
     // Listen for shared intents while app is running
-    ReceiveSharingIntent.instance.getMediaStream().listen((value) {
-      if (value.isNotEmpty && value.first.path.isNotEmpty) {
-        state = value.first.path;
-      }
-    });
+    final subscription = ReceiveSharingIntent.instance.getMediaStream().listen(
+      (value) {
+        if (value.isNotEmpty) {
+          // Use path for shared text/URLs
+          final sharedText = value.first.path;
+          if (sharedText.isNotEmpty) {
+            state = sharedText;
+          }
+        }
+      },
+    );
+
+    // Clean up subscription when provider is disposed
+    ref.onDispose(subscription.cancel);
 
     // Check for initial shared intent (app was opened from share)
     unawaited(_checkInitialIntent());
@@ -22,9 +32,13 @@ class ShareIntentNotifier extends _$ShareIntentNotifier {
   }
 
   Future<void> _checkInitialIntent() async {
-    final initial = await ReceiveSharingIntent.instance.getInitialMedia();
-    if (initial.isNotEmpty && initial.first.path.isNotEmpty) {
-      state = initial.first.path;
+    try {
+      final initial = await ReceiveSharingIntent.instance.getInitialMedia();
+      if (initial.isNotEmpty && initial.first.path.isNotEmpty) {
+        state = initial.first.path;
+      }
+    } on Exception {
+      // Silently ignore share intent errors - not critical
     }
   }
 
