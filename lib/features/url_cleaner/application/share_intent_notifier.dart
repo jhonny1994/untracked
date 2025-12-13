@@ -28,8 +28,10 @@ class ShareIntentNotifier extends _$ShareIntentNotifier {
     }
   }
 
-  /// Clear the shared URL after processing
+  /// Clear the shared URL after processing and reset the OS-level cache
   void clear() {
     state = null;
+    // Reset the initial media cache to prevent re-processing on "Try Again"
+    unawaited(ReceiveSharingIntent.instance.reset());
   }
 }

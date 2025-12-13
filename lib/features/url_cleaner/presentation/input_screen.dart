@@ -62,7 +62,10 @@ class _InputScreenState extends ConsumerState<InputScreen> {
     // Listen to state changes and navigate accordingly
     ref.listen<ProcessingState>(urlCleanerProvider, (previous, next) {
       next.when(
-        initial: () {},
+        initial: () {
+          // Clear the input when returning to home (e.g., from Try Another)
+          _controller.clear();
+        },
         loading: (_) => context.go(AppRoutes.processing),
         success: (_) => context.go(AppRoutes.result),
         error: (_, _) => context.go(AppRoutes.result),
