@@ -1,7 +1,7 @@
 name: untracked
-description: "A new Flutter project."
+description: "Privacy-first TikTok URL cleaner. Remove tracking parameters and share links anonymously."
 publish_to: 'none'
-version: 0.5.0
+version: 0.5.0+5
 
 environment:
   sdk: ^3.9.2
