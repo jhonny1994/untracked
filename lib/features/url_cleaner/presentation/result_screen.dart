@@ -78,12 +78,15 @@ class _SuccessView extends ConsumerWidget {
                     ),
                   ),
                   const Gap(AppDesign.spaceLarge),
-                  Text(
-                    l10n.successScreenTitle,
-                    style: theme.textTheme.headlineSmall?.copyWith(
-                      fontWeight: FontWeight.bold,
+                  Semantics(
+                    liveRegion: true,
+                    child: Text(
+                      l10n.successScreenTitle,
+                      style: theme.textTheme.headlineSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
                   ),
                   const Gap(AppDesign.spaceMedium),
                   // Clean URL display
@@ -110,49 +113,64 @@ class _SuccessView extends ConsumerWidget {
                   ),
                   const Spacer(),
                   // Copy button
-                  FilledButton.icon(
-                    onPressed: () async {
-                      await HapticService.copy();
-                      final success = await ClipboardService.copy(
-                        result.cleanUrl,
-                      );
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              success
-                                  ? l10n.successScreenCopied
-                                  : l10n.errorClipboardFailed,
-                            ),
-                            duration: AppConstants.snackBarDuration,
-                          ),
+                  Semantics(
+                    button: true,
+                    label: l10n.accessibilityCopyButton,
+                    hint: l10n.accessibilityCopyButtonHint,
+                    child: FilledButton.icon(
+                      onPressed: () async {
+                        await HapticService.copy();
+                        final success = await ClipboardService.copy(
+                          result.cleanUrl,
                         );
-                      }
-                    },
-                    icon: const Icon(Icons.copy_rounded),
-                    label: Text(l10n.successScreenCopyButton),
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                success
+                                    ? l10n.successScreenCopied
+                                    : l10n.errorClipboardFailed,
+                              ),
+                              duration: AppConstants.snackBarDuration,
+                            ),
+                          );
+                        }
+                      },
+                      icon: const Icon(Icons.copy_rounded),
+                      label: Text(l10n.successScreenCopyButton),
+                    ),
                   ),
                   const Gap(AppDesign.spaceMedium),
                   // Share button
-                  FilledButton.tonalIcon(
-                    onPressed: () async {
-                      await HapticService.lightImpact();
-                      await SharePlus.instance.share(
-                        ShareParams(text: result.cleanUrl),
-                      );
-                    },
-                    icon: const Icon(Icons.share_rounded),
-                    label: Text(l10n.successScreenShareButton),
+                  Semantics(
+                    button: true,
+                    label: l10n.accessibilityShareButton,
+                    hint: l10n.accessibilityShareButtonHint,
+                    child: FilledButton.tonalIcon(
+                      onPressed: () async {
+                        await HapticService.lightImpact();
+                        await SharePlus.instance.share(
+                          ShareParams(text: result.cleanUrl),
+                        );
+                      },
+                      icon: const Icon(Icons.share_rounded),
+                      label: Text(l10n.successScreenShareButton),
+                    ),
                   ),
                   const Gap(AppDesign.spaceMedium),
                   // Try another button
-                  TextButton(
-                    onPressed: () async {
-                      await HapticService.lightImpact();
-                      ref.read(urlCleanerProvider.notifier).reset();
-                      if (context.mounted) context.go(AppRoutes.home);
-                    },
-                    child: Text(l10n.successScreenTryAnother),
+                  Semantics(
+                    button: true,
+                    label: l10n.accessibilityTryAnotherButton,
+                    hint: l10n.accessibilityTryAnotherHint,
+                    child: TextButton(
+                      onPressed: () async {
+                        await HapticService.lightImpact();
+                        ref.read(urlCleanerProvider.notifier).reset();
+                        if (context.mounted) context.go(AppRoutes.home);
+                      },
+                      child: Text(l10n.successScreenTryAnother),
+                    ),
                   ),
                   const Spacer(),
                 ],
@@ -209,22 +227,30 @@ class _ErrorView extends ConsumerWidget {
                     ),
                   ),
                   const Gap(AppDesign.spaceLarge),
-                  Text(
-                    errorMessage,
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      color: colorScheme.onSurface,
+                  Semantics(
+                    liveRegion: true,
+                    child: Text(
+                      errorMessage,
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        color: colorScheme.onSurface,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
                   ),
                   const Gap(AppDesign.spaceXLarge),
-                  FilledButton.icon(
-                    onPressed: () async {
-                      await HapticService.lightImpact();
-                      ref.read(urlCleanerProvider.notifier).reset();
-                      if (context.mounted) context.go(AppRoutes.home);
-                    },
-                    icon: const Icon(Icons.refresh_rounded),
-                    label: Text(l10n.tryAgainButton),
+                  Semantics(
+                    button: true,
+                    label: l10n.accessibilityRetryButton,
+                    hint: l10n.accessibilityRetryHint,
+                    child: FilledButton.icon(
+                      onPressed: () async {
+                        await HapticService.lightImpact();
+                        ref.read(urlCleanerProvider.notifier).reset();
+                        if (context.mounted) context.go(AppRoutes.home);
+                      },
+                      icon: const Icon(Icons.refresh_rounded),
+                      label: Text(l10n.tryAgainButton),
+                    ),
                   ),
                 ],
               ),

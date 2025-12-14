@@ -1,0 +1,14 @@
+# Android Release Signing Configuration Template
+# 
+# IMPORTANT: This file contains sensitive credentials and is in .gitignore
+# Copy this template to create your actual key.properties file
+#
+# Instructions:
+# 1. Copy your release keystore (.jks or .keystore) to android/app/
+# 2. Fill in the values below with your actual keystore information
+# 3. Save as android/key.properties (this filename is already in .gitignore)
+
+storeFile=app/your-release-keystore.jks
+storePassword=your-keystore-password
+keyAlias=your-key-alias
+keyPassword=your-key-password

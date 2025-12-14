@@ -132,10 +132,15 @@ class _InputScreenState extends ConsumerState<InputScreen> {
                       focusNode: _focusNode,
                       decoration: InputDecoration(
                         hintText: l10n.inputScreenHint,
-                        suffixIcon: IconButton(
-                          icon: const Icon(Icons.content_paste_rounded),
-                          onPressed: _paste,
-                          tooltip: l10n.inputScreenPasteButton,
+                        suffixIcon: Semantics(
+                          button: true,
+                          label: l10n.accessibilityPasteButton,
+                          hint: l10n.accessibilityPasteHint,
+                          child: IconButton(
+                            icon: const Icon(Icons.content_paste_rounded),
+                            onPressed: _paste,
+                            tooltip: l10n.inputScreenPasteButton,
+                          ),
                         ),
                       ),
                       keyboardType: TextInputType.url,
@@ -144,10 +149,15 @@ class _InputScreenState extends ConsumerState<InputScreen> {
                     ),
                   ),
                   const Gap(AppDesign.spaceMedium),
-                  FilledButton.icon(
-                    onPressed: _process,
-                    icon: const Icon(Icons.cleaning_services_rounded),
-                    label: Text(l10n.inputScreenProcessButton),
+                  Semantics(
+                    button: true,
+                    label: l10n.accessibilityProcessButton,
+                    hint: l10n.accessibilityProcessButtonHint,
+                    child: FilledButton.icon(
+                      onPressed: _process,
+                      icon: const Icon(Icons.cleaning_services_rounded),
+                      label: Text(l10n.inputScreenProcessButton),
+                    ),
                   ),
                   const Spacer(flex: 2),
                 ],
