@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:untracked/application/application.dart';
+import 'package:untracked/app/app_exports.dart';
 import 'package:untracked/core/core.dart';
 import 'package:untracked/features/url_cleaner/url_cleaner.dart';
 
@@ -89,8 +89,8 @@ class _ProcessingScreenState extends ConsumerState<ProcessingScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      width: 80,
-                      height: 80,
+                      width: AppDesign.iconContainerSmall,
+                      height: AppDesign.iconContainerSmall,
                       child: CircularProgressIndicator(
                         strokeWidth: 4,
                         color: colorScheme.primary,

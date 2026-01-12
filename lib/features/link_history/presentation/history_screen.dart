@@ -59,7 +59,7 @@ class HistoryScreen extends ConsumerWidget {
         children: [
           Icon(
             Icons.history_rounded,
-            size: 80,
+            size: AppDesign.iconContainerSmall,
             color: theme.colorScheme.onSurfaceVariant.withAlpha(128),
           ),
           const Gap(AppDesign.spaceMedium),

@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:untracked/application/application.dart';
+import 'package:untracked/app/app_exports.dart';
 import 'package:untracked/core/core.dart';
 import 'package:untracked/features/onboarding/application/onboarding_notifier.dart';
 
@@ -178,15 +178,15 @@ class _OnboardingPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: 120,
-            height: 120,
+            width: AppDesign.iconContainerLarge,
+            height: AppDesign.iconContainerLarge,
             decoration: BoxDecoration(
               color: colorScheme.primaryContainer,
               shape: BoxShape.circle,
             ),
             child: Icon(
               icon,
-              size: 56,
+              size: AppDesign.iconInnerLarge,
               color: colorScheme.onPrimaryContainer,
             ),
           ),

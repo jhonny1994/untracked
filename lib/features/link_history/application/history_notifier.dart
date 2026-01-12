@@ -58,14 +58,19 @@ class HistoryNotifier extends _$HistoryNotifier {
 
   Future<void> deleteEntry(LinkHistoryEntry entry) async {
     final box = await ref.read(historyBoxProvider.future);
-    // Find key by matching cleanUrl and cleanedAt
-    final key = box.keys.cast<int>().firstWhere(
-      (k) =>
-          box.get(k)?.cleanUrl == entry.cleanUrl &&
-          box.get(k)?.cleanedAt == entry.cleanedAt,
-      orElse: () => -1,
-    );
-    if (key != -1) {
+    // Optimized: Use toMap() to get all entries with keys at once
+    // instead of iterating with box.get(k) for each key
+    final entriesMap = box.toMap();
+    final key = entriesMap.entries
+        .where(
+          (e) =>
+              e.value.cleanUrl == entry.cleanUrl &&
+              e.value.cleanedAt == entry.cleanedAt,
+        )
+        .map((e) => e.key as int)
+        .firstOrNull;
+
+    if (key != null) {
       await box.delete(key);
     }
     await _loadHistory();

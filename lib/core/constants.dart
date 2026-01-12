@@ -108,4 +108,16 @@ abstract class AppDesign {
   static const double radiusMedium = 12;
   static const double radiusLarge = 16;
   static const double radiusXLarge = 24;
+
+  // Icon Container Sizes
+  static const double iconContainerSmall = 80;
+  static const double iconContainerMedium = 100;
+  static const double iconContainerLarge = 120;
+
+  // Icon Inner Sizes (for use inside containers)
+  static const double iconInnerLarge = 56;
+
+  // Button Sizes
+  static const double buttonMinHeight = 56;
+  static const double buttonMinTapTarget = 48;
 }

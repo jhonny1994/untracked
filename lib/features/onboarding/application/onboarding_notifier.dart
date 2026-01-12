@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import 'package:untracked/application/application.dart';
+import 'package:untracked/app/app_exports.dart';
 
 part 'onboarding_notifier.g.dart';
 

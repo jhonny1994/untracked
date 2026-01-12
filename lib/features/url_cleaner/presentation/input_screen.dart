@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:untracked/application/application.dart';
+import 'package:untracked/app/app_exports.dart';
 import 'package:untracked/core/core.dart';
 import 'package:untracked/features/url_cleaner/url_cleaner.dart';
 
@@ -31,7 +31,8 @@ class _InputScreenState extends ConsumerState<InputScreen> {
   Future<void> _paste() async {
     final text = await ClipboardService.paste();
     if (text != null && text.isNotEmpty) {
-      _controller.text = text;
+      // Sanitize: trim whitespace and normalize
+      _controller.text = text.trim();
       await HapticService.lightImpact();
     }
   }
@@ -92,8 +93,8 @@ class _InputScreenState extends ConsumerState<InputScreen> {
                   Semantics(
                     label: l10n.accessibilityAppIcon,
                     child: Container(
-                      width: 80,
-                      height: 80,
+                      width: AppDesign.iconContainerSmall,
+                      height: AppDesign.iconContainerSmall,
                       decoration: BoxDecoration(
                         color: colorScheme.primaryContainer,
                         borderRadius: BorderRadius.circular(

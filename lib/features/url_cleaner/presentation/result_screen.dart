@@ -4,7 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_plus/share_plus.dart';
 
-import 'package:untracked/application/application.dart';
+import 'package:untracked/app/app_exports.dart';
 import 'package:untracked/core/core.dart';
 import 'package:untracked/features/url_cleaner/url_cleaner.dart';
 
@@ -64,15 +64,15 @@ class _SuccessView extends ConsumerWidget {
                   Semantics(
                     label: l10n.accessibilitySuccess,
                     child: Container(
-                      width: 100,
-                      height: 100,
+                      width: AppDesign.iconContainerMedium,
+                      height: AppDesign.iconContainerMedium,
                       decoration: BoxDecoration(
                         color: colorScheme.primaryContainer,
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
                         Icons.check_rounded,
-                        size: 56,
+                        size: AppDesign.iconInnerLarge,
                         color: colorScheme.onPrimaryContainer,
                       ),
                     ),
@@ -195,8 +195,8 @@ class _ErrorView extends ConsumerWidget {
                   Semantics(
                     label: l10n.accessibilityError,
                     child: Container(
-                      width: 80,
-                      height: 80,
+                      width: AppDesign.iconContainerSmall,
+                      height: AppDesign.iconContainerSmall,
                       decoration: BoxDecoration(
                         color: colorScheme.errorContainer,
                         shape: BoxShape.circle,

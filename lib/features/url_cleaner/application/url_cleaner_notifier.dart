@@ -2,23 +2,21 @@ import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:untracked/application/application.dart';
+import 'package:untracked/app/app_exports.dart';
 import 'package:untracked/core/core.dart';
 import 'package:untracked/features/link_history/link_history.dart';
 import 'package:untracked/features/url_cleaner/url_cleaner.dart';
 
 part 'url_cleaner_notifier.g.dart';
 
+/// Provider for Connectivity instance to avoid repeated instantiation.
+@riverpod
+Connectivity connectivity(Ref ref) => Connectivity();
+
 @riverpod
 class UrlCleanerNotifier extends _$UrlCleanerNotifier {
-  late final UrlCleanerService _cleanerService;
-
   @override
   ProcessingState build() {
-    _cleanerService = const UrlCleanerService(
-      redirectService: RedirectService(),
-      urlParser: UrlParser(),
-    );
     return const ProcessingState.initial();
   }
 
@@ -31,8 +29,9 @@ class UrlCleanerNotifier extends _$UrlCleanerNotifier {
     final isShortUrl = TikTokPatterns.shortUrlPattern.hasMatch(trimmedUrl);
 
     if (isShortUrl) {
-      final connectivity = await Connectivity().checkConnectivity();
-      if (connectivity.contains(ConnectivityResult.none)) {
+      final connectivity = ref.read(connectivityProvider);
+      final result = await connectivity.checkConnectivity();
+      if (result.contains(ConnectivityResult.none)) {
         await HapticService.error();
         state = const ProcessingState.error(
           error: ProcessingError.offlineShortLink,
@@ -46,7 +45,8 @@ class UrlCleanerNotifier extends _$UrlCleanerNotifier {
 
     // Clean the URL with timeout protection
     try {
-      final (:result, :error) = await _cleanerService
+      final cleanerService = ref.read(urlCleanerServiceProvider);
+      final (:result, :error) = await cleanerService
           .cleanUrl(trimmedUrl)
           .timeout(AppConstants.processingTimeout);
 

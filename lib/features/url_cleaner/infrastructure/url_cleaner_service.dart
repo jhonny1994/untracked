@@ -8,7 +8,7 @@ import 'package:untracked/features/url_cleaner/url_cleaner.dart';
 /// 2. Follows redirects for short URLs (vm.tiktok.com, vt.tiktok.com)
 /// 3. Extracts username and video ID
 /// 4. Builds a clean URL without tracking parameters
-class UrlCleanerService {
+class UrlCleanerService implements IUrlCleanerService {
   /// Creates a new [UrlCleanerService] with the required dependencies.
   const UrlCleanerService({
     required this.redirectService,
@@ -30,6 +30,7 @@ class UrlCleanerService {
   /// - `error`: A [ProcessingError] on failure
   ///
   /// Supports offline mode for canonical URLs that don't require redirects.
+  @override
   Future<({CleanResult? result, ProcessingError? error})> cleanUrl(
     String inputUrl,
   ) async {

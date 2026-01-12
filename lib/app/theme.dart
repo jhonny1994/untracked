@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:untracked/core/core.dart';
+
 /// App theme configuration with Material You support
 abstract class AppTheme {
   /// Primary brand color - Teal accent from PRD
@@ -127,9 +129,9 @@ abstract class AppTheme {
       // Elevated buttons
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          minimumSize: const Size(double.infinity, 56),
+          minimumSize: const Size(double.infinity, AppDesign.buttonMinHeight),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(AppDesign.radiusLarge),
           ),
           elevation: 0,
           backgroundColor: colorScheme.primary,
@@ -140,9 +142,9 @@ abstract class AppTheme {
       // Filled buttons
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
-          minimumSize: const Size(double.infinity, 56),
+          minimumSize: const Size(double.infinity, AppDesign.buttonMinHeight),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(AppDesign.radiusLarge),
           ),
         ),
       ),
@@ -150,9 +152,9 @@ abstract class AppTheme {
       // Outlined buttons
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          minimumSize: const Size(double.infinity, 56),
+          minimumSize: const Size(double.infinity, AppDesign.buttonMinHeight),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(AppDesign.radiusLarge),
           ),
         ),
       ),
@@ -160,7 +162,10 @@ abstract class AppTheme {
       // Text buttons
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          minimumSize: const Size(48, 48),
+          minimumSize: const Size(
+            AppDesign.buttonMinTapTarget,
+            AppDesign.buttonMinTapTarget,
+          ),
         ),
       ),
 

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gap/gap.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-import 'package:untracked/application/application.dart';
+import 'package:untracked/app/app_exports.dart';
 import 'package:untracked/core/core.dart';
 import 'package:untracked/features/features.dart';
 
@@ -17,6 +18,43 @@ Future<void> main() async {
   // Register timeago locales for non-English languages
   timeago.setLocaleMessages('ar', timeago.ArMessages());
   timeago.setLocaleMessages('fr', timeago.FrMessages());
+
+  // Configure global error widget for production graceful error handling
+  ErrorWidget.builder = (FlutterErrorDetails details) {
+    return Builder(
+      builder: (context) {
+        // Try to get theme, fallback to defaults if not available
+        final colorScheme = Theme.of(context).colorScheme;
+        final textTheme = Theme.of(context).textTheme;
+        return Material(
+          child: Container(
+            color: colorScheme.surface,
+            padding: const EdgeInsets.all(AppDesign.paddingScreen),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.error_outline,
+                    size: AppDesign.iconXLarge,
+                    color: colorScheme.error,
+                  ),
+                  const Gap(AppDesign.spaceMedium),
+                  Text(
+                    'Something went wrong',
+                    style: textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: colorScheme.onSurface,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  };
 
   runApp(
     const ProviderScope(

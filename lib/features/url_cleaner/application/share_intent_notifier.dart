@@ -15,7 +15,9 @@ class ShareIntentNotifier extends _$ShareIntentNotifier {
         if (value.isNotEmpty) {
           // Use path for shared text/URLs
           final sharedText = value.first.path;
-          if (sharedText.isNotEmpty) {
+          // Validate that it's a valid URL before processing
+          if (sharedText.isNotEmpty &&
+              (Uri.tryParse(sharedText)?.hasScheme ?? false)) {
             state = sharedText;
           }
         }
@@ -34,8 +36,10 @@ class ShareIntentNotifier extends _$ShareIntentNotifier {
   Future<void> _checkInitialIntent() async {
     try {
       final initial = await ReceiveSharingIntent.instance.getInitialMedia();
-      if (initial.isNotEmpty && initial.first.path.isNotEmpty) {
-        state = initial.first.path;
+      final path = initial.isNotEmpty ? initial.first.path : '';
+      // Validate URL has a scheme before processing
+      if (path.isNotEmpty && (Uri.tryParse(path)?.hasScheme ?? false)) {
+        state = path;
       }
     } on Exception {
       // Silently ignore share intent errors - not critical

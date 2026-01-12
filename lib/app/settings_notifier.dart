@@ -1,35 +1,22 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untracked/core/core.dart';
 
+part 'settings_notifier.freezed.dart';
 part 'settings_notifier.g.dart';
 
 /// Settings state containing theme mode and locale
-class SettingsState {
-  const SettingsState({
-    this.themeMode = ThemeMode.system,
-    this.locale,
-    this.historyEnabled = true,
-  });
-
-  final ThemeMode themeMode;
-  final Locale? locale;
-  final bool historyEnabled;
-
-  SettingsState copyWith({
-    ThemeMode? themeMode,
+@freezed
+abstract class SettingsState with _$SettingsState {
+  const factory SettingsState({
+    @Default(ThemeMode.system) ThemeMode themeMode,
     Locale? locale,
-    bool? historyEnabled,
-  }) {
-    return SettingsState(
-      themeMode: themeMode ?? this.themeMode,
-      locale: locale ?? this.locale,
-      historyEnabled: historyEnabled ?? this.historyEnabled,
-    );
-  }
+    @Default(true) bool historyEnabled,
+  }) = _SettingsState;
 }
 
 /// Provider for SharedPreferences instance

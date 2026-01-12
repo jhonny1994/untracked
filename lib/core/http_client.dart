@@ -11,8 +11,12 @@ import 'package:untracked/core/core.dart';
 ///
 /// Uses a singleton [HttpClient] for connection reuse and implements
 /// exponential backoff for rate-limited requests.
+///
+/// Note: This client intentionally uses a browser-like User-Agent to avoid
+/// bot detection by TikTok's CDN. This is required for redirect resolution.
 abstract class AppHttpClient {
   static HttpClient? _client;
+  static http.Client? _httpPackageClient;
 
   /// Gets the singleton [HttpClient] instance with connection keep-alive.
   static HttpClient get _httpClient {
@@ -22,23 +26,26 @@ abstract class AppHttpClient {
       ..userAgent = AppConstants.userAgent;
   }
 
-  /// Disposes the HTTP client. Call when app is shutting down.
+  /// Disposes the HTTP clients. Call when app is shutting down.
   static void dispose() {
     _client?.close();
     _client = null;
+    _httpPackageClient?.close();
+    _httpPackageClient = null;
+  }
+
+  /// Gets the singleton [http.Client] for standard HTTP requests.
+  static http.Client get _packageClient {
+    return _httpPackageClient ??= http.Client();
   }
 
   /// Makes a GET request to [url] with configured headers and timeout.
+  ///
+  /// Uses a singleton client for connection reuse.
   static Future<http.Response> get(Uri url) async {
-    final client = http.Client();
-    try {
-      final response = await client
-          .get(url, headers: AppConstants.httpHeaders)
-          .timeout(AppConstants.httpTimeout);
-      return response;
-    } finally {
-      client.close();
-    }
+    return _packageClient
+        .get(url, headers: AppConstants.httpHeaders)
+        .timeout(AppConstants.httpTimeout);
   }
 
   /// Follows HTTP redirects for [url] and returns the final destination.
@@ -72,7 +79,20 @@ abstract class AppHttpClient {
 
     try {
       while (hopCount < maxHops) {
-        final request = await _httpClient.getUrl(Uri.parse(currentUrl));
+        final uri = Uri.parse(currentUrl);
+
+        // Security: Validate URL scheme to prevent non-HTTP requests
+        if (uri.scheme != 'http' && uri.scheme != 'https') {
+          return RedirectResult(
+            finalUrl: currentUrl,
+            hops: hops,
+            hopCount: hopCount,
+            error: RedirectError.unknown,
+            errorMessage: 'Invalid URL scheme: ${uri.scheme}',
+          );
+        }
+
+        final request = await _httpClient.getUrl(uri);
 
         AppConstants.httpHeaders.forEach((key, value) {
           request.headers.set(key, value);

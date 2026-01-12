@@ -9,9 +9,7 @@ abstract class ClipboardService {
     try {
       await Clipboard.setData(ClipboardData(text: text));
       return true;
-    } on PlatformException catch (_) {
-      return false;
-    } on Exception catch (_) {
+    } on Object catch (_) {
       return false;
     }
   }
@@ -23,9 +21,7 @@ abstract class ClipboardService {
     try {
       final data = await Clipboard.getData(Clipboard.kTextPlain);
       return data?.text;
-    } on PlatformException catch (_) {
-      return null;
-    } on Exception catch (_) {
+    } on Object catch (_) {
       return null;
     }
   }

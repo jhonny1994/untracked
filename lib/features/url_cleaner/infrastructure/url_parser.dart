@@ -7,13 +7,14 @@ import 'package:untracked/features/url_cleaner/url_cleaner.dart';
 /// - Full video URLs: `tiktok.com/@user/video/123`
 /// - User profile URLs: `tiktok.com/@user`
 /// - Short URLs: `vm.tiktok.com/ABC123`
-class UrlParser {
+class UrlParser implements IUrlParser {
   /// Creates a new [UrlParser] instance.
   const UrlParser();
 
   /// Checks if [url] is a valid TikTok URL.
   ///
   /// Returns `true` if the URL belongs to a TikTok domain.
+  @override
   bool isTikTokUrl(String url) {
     final uri = Uri.tryParse(url);
     if (uri == null || !uri.hasScheme) return false;
@@ -29,6 +30,7 @@ class UrlParser {
   /// [resolvedUrl] is the final URL after following redirects (optional).
   ///
   /// Returns a [TikTokUrl] with extracted data.
+  @override
   TikTokUrl parse(String originalUrl, {String? resolvedUrl}) {
     final urlToParse = resolvedUrl ?? originalUrl;
 
@@ -74,6 +76,7 @@ class UrlParser {
   /// Builds a clean TikTok URL from parsed data.
   ///
   /// Strips all tracking parameters and normalizes the URL format.
+  @override
   String buildCleanUrl(TikTokUrl url) {
     if (url.hasVideoId && url.hasUsername) {
       return TikTokPatterns.buildCleanUrl(url.username!, url.videoId!);
@@ -92,6 +95,7 @@ class UrlParser {
   /// additional content like captions or hashtags.
   ///
   /// Returns the extracted URL or `null` if no TikTok URL is found.
+  @override
   String? extractUrl(String text) {
     // Regex to match TikTok URLs buried in text
     final urlPattern = RegExp(
